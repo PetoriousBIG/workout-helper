@@ -1,7 +1,8 @@
 import React from 'react';
 import { Text, View, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
 import Workout from '../model/workout.js';
-
+import { createStackNavigator } from '@react-navigation/stack';
+import WOScreen from '../screens/workout-screen'
 
 const w1 = new Workout('StrongLifts 5X5 A');
 const w2 = new Workout('StrongLifts 5X5 B');
@@ -14,16 +15,16 @@ const dummyData = [w1, w2]
 export default function Home() {
   return (
     <View style={styles.container}>
-      <FlatList data={dummyData}
+          <FlatList data={dummyData}
                 renderItem={({ item }) => (
                   
-                  <TouchableOpacity onPress={() => alert(item.name) }>
+                  <TouchableOpacity onPress={() => navigation.navigate('Workout') }>
                     <View style={styles.row}>
                       
                       <Text style={styles.rowText}>{item.name}</Text>
                       
                       <View style={styles.rowbuttons}>
-                        <TouchableOpacity onPress={() => alert('edit ' + item.name)}>
+                        <TouchableOpacity onPress={ () => alert('edit ' + item.name)}>
                           <View style={styles.imagePadding}>
                             <Image style={styles.image} source={require('../assets/edit.png')}/>
                           </View>
@@ -34,6 +35,7 @@ export default function Home() {
                           </View>
                         </TouchableOpacity>
                       </View>
+
                     </View>
                   </TouchableOpacity>
                   

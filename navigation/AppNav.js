@@ -1,16 +1,18 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import * as React from 'react'
 import { AppConsumer } from '../context/app-context';
+import { NavigationContainer } from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+
 import Home from '../screens/home-tab.js';
 import Rest from '../screens/rest-tab.js';
 import Options from '../screens/options.js';
+import WOScreen from '../screens/workout-screen.js'
 
 const Tab = createMaterialTopTabNavigator();
+const Stack = createStackNavigator();
 
-//sets up the tab navigator, used for navigating between the main pages of the app
-export default function Entry() {
+function TopLevelTabsNav() {
   return (
     <AppConsumer>
     {(context) => (
@@ -29,3 +31,5 @@ export default function Entry() {
     </AppConsumer>
   );
 }
+
+export default TopLevelTabsNav
