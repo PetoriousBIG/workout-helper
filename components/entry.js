@@ -9,6 +9,7 @@ import Options from '../screens/options.js';
 
 const Tab = createMaterialTopTabNavigator();
 
+//sets up the tab navigator, used for navigating between the main pages of the app
 export default function Entry() {
   return (
     <AppConsumer>

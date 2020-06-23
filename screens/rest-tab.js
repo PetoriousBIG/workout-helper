@@ -2,13 +2,21 @@ import React, { useState} from 'react';
 import { StyleSheet, Text, View, Button, TouchableOpacity, TextInput } from 'react-native';
 import CountDown from 'react-native-countdown-component';
 
+//this is a tab for the top level tab navigator
+//this tab features a countdown component that the user can
+//set the time for. The expected behavior is for the user
+//to use this timer help time rest periods during a workout.
 export default function Rest() {
+
   const [timerRunning, setTimerRunning] = useState(false) 
   const [timer, setTime] = useState(300)
   const [viewKey, setViewKey] = useState(0)
   const [min, setMin] = useState('03')
   const [sec, setSec] = useState('00')
 
+  //resets the timer to the user inputted time.
+  //we need to set the key for the changes to take effect,
+  //a common "React Hack"
   const changeState = () => {
     
     const time = (parseInt(min) * 60) + parseInt(sec)
@@ -18,6 +26,7 @@ export default function Rest() {
     setViewKey(vk+1)
   }
 
+  //keeps consistant number of characters in the strings
   const fixString = (num) => {
     if(num < 0){
       num = 0
@@ -31,6 +40,8 @@ export default function Rest() {
     }
   }
 
+  //the following four functions are for setting
+  //the varibles for the timer component
   const minUp = () => {
     var m = parseInt(min)+1
     const s = fixString(m)

@@ -1,15 +1,58 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, StyleSheet, FlatList, Row, TouchableOpacity } from 'react-native';
 
+
+const dummyData = [{name: 'item1', key: 'a' }, 
+                   {name: 'item2', key: 'b'}, 
+                   {name: 'item3', key: 'c'},
+                   {name: 'item4', key: 'd'},
+                   {name: 'item5', key: 'e'},
+                   {name: 'item6', key: 'f'},
+                   {name: 'item7', key: 'g'},
+                   {name: 'item8', key: 'h'},
+                   {name: 'item9', key: 'i'}]
+
+//the workout list screen. this is the fist tab used in 
+//top level tab navigator. this is the "Home" screen
 export default function Home() {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center"
-      }}>
-      <Text>Hello, world!</Text>
+    <View style={styles.container}>
+      <FlatList data={dummyData}
+                renderItem={({ item }) => (
+                  
+                  <TouchableOpacity onPress={() => alert(item.name) }>
+                    <View style={styles.row}>
+                      <Text style={styles.rowText}>{item.name}</Text>
+                    </View>
+                  </TouchableOpacity>
+                  )}
+
+                keyExtractor = {(item, index) => item.key} />
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container : {
+    flex: 1,
+    justifyContent: "flex-start",
+    marginLeft: '5%',
+    marginTop: '5%',
+    marginRight: '5%',
+    marginBottom: '15%'
+  },
+  row: {
+    flex: 1,
+    flexDirection: 'row',
+    alignContent: 'stretch',
+    backgroundColor: '#05DA70',
+    marginTop: 10,
+    padding: 20,
+    borderRadius: 15,
+    borderColor: 'black',
+    borderWidth: 1
+  },
+  rowText: {
+    fontSize: 24
+  }
+})
