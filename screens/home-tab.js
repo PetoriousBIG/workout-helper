@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, FlatList, Row, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
 
 
 const dummyData = [{name: 'item1', key: 'a' }, 
@@ -12,6 +12,7 @@ const dummyData = [{name: 'item1', key: 'a' },
                    {name: 'item8', key: 'h'},
                    {name: 'item9', key: 'i'}]
 
+
 //the workout list screen. this is the fist tab used in 
 //top level tab navigator. this is the "Home" screen
 export default function Home() {
@@ -22,12 +23,28 @@ export default function Home() {
                   
                   <TouchableOpacity onPress={() => alert(item.name) }>
                     <View style={styles.row}>
+                      
                       <Text style={styles.rowText}>{item.name}</Text>
+                      
+                      <View style={styles.rowbuttons}>
+                        <TouchableOpacity onPress={() => alert('edit ' + item.name)}>
+                          <View style={styles.imagePadding}>
+                            <Image style={styles.image} source={require('../assets/edit.png')}/>
+                          </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => alert('delete ' + item.name)}>
+                          <View style={styles.imagePadding}>
+                            <Image style={styles.image} source={require('../assets/delete.png')}/>
+                          </View>
+                        </TouchableOpacity>
+                      </View>
                     </View>
                   </TouchableOpacity>
+                  
                   )}
 
                 keyExtractor = {(item, index) => item.key} />
+                
     </View>
   )
 }
@@ -39,20 +56,36 @@ const styles = StyleSheet.create({
     marginLeft: '5%',
     marginTop: '5%',
     marginRight: '5%',
-    marginBottom: '15%'
+    marginBottom: '11%'
   },
   row: {
     flex: 1,
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignContent: 'stretch',
     backgroundColor: '#05DA70',
     marginTop: 10,
-    padding: 20,
+    paddingTop: 20,
+    paddingBottom: 20,
+    paddingLeft: 15,
     borderRadius: 15,
     borderColor: 'black',
     borderWidth: 1
   },
   rowText: {
     fontSize: 24
+  },
+  rowbuttons: {
+    justifyContent: 'space-around',
+    flexDirection: 'row'
+  },
+  image: {
+    width: 24,
+    height: 24,
+  },
+  imagePadding: {
+    paddingRight: 10,
+    paddingLeft: 10
   }
+
 })
