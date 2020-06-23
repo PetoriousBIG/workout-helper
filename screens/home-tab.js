@@ -12,7 +12,8 @@ const dummyData = [w1, w2]
 
 //the workout list screen. this is the fist tab used in 
 //top level tab navigator. this is the "Home" screen
-export default function Home() {
+export default function Home(props) {
+  const { navigation } = props
   return (
     <View style={styles.container}>
           <FlatList data={dummyData}

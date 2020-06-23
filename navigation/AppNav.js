@@ -22,14 +22,25 @@ function TopLevelTabsNav() {
             inactiveTintColor: context.selectedColor.itColor,
             style: {backgroundColor: context.selectedColor.bg}
           }}>
-          <Tab.Screen name='Workouts' component={Home}/>
-          <Tab.Screen name='Rest' component={Rest}/>
+          <Tab.Screen name = 'Workouts' component={StackNav}/>
+          <Tab.Screen name = 'Rest' component={Rest}/>
           <Tab.Screen name = 'Options' component={Options}/>
         </Tab.Navigator>
       </NavigationContainer>
     )}
     </AppConsumer>
   );
+}
+
+function StackNav() {
+    return(
+       
+      <Stack.Navigator>
+        <Stack.Screen options={{headerShown: false}} name = 'Workouts' component={Home}/>
+        <Stack.Screen name = 'Workout' component={WOScreen}/>
+      </Stack.Navigator>
+    
+    )
 }
 
 export default TopLevelTabsNav
