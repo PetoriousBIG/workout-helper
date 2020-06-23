@@ -1,16 +1,12 @@
 import React from 'react';
 import { Text, View, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
+import Workout from '../model/workout.js';
 
 
-const dummyData = [{name: 'item1', key: 'a' }, 
-                   {name: 'item2', key: 'b'}, 
-                   {name: 'item3', key: 'c'},
-                   {name: 'item4', key: 'd'},
-                   {name: 'item5', key: 'e'},
-                   {name: 'item6', key: 'f'},
-                   {name: 'item7', key: 'g'},
-                   {name: 'item8', key: 'h'},
-                   {name: 'item9', key: 'i'}]
+const w1 = new Workout('StrongLifts 5X5 A');
+const w2 = new Workout('StrongLifts 5X5 B');
+
+const dummyData = [w1, w2]
 
 
 //the workout list screen. this is the fist tab used in 
@@ -43,7 +39,7 @@ export default function Home() {
                   
                   )}
 
-                keyExtractor = {(item, index) => item.key} />
+                keyExtractor = {(item, index) => {return item.key}} />
                 
     </View>
   )
@@ -63,7 +59,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignContent: 'stretch',
-    backgroundColor: '#05DA70',
+    backgroundColor: '#FF7394',
     marginTop: 10,
     paddingTop: 20,
     paddingBottom: 20,
