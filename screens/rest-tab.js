@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button, TouchableOpacity, TextInput } from 'react-native';
 import CountDown from 'react-native-countdown-component';
 
@@ -95,11 +95,15 @@ export default function Rest() {
 
         <View style={styles.horizontalView}>
           <TouchableOpacity style={{marginLeft: 18}} onPress={() => minDown()}>
-            <Text style={styles.toPlusAndMinus}>-</Text>
+            <View>  
+              <Text style={styles.toPlusAndMinus}>-</Text>
+            </View>
           </TouchableOpacity>
 
           <TouchableOpacity style={{marginLeft: 43}} onPress={() => secDown()}>
-            <Text style={styles.toPlusAndMinus}>-</Text>
+            <View>
+              <Text style={styles.toPlusAndMinus}>-</Text>
+            </View>
           </TouchableOpacity>
 
         </View>

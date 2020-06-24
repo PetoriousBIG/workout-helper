@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, FlatList, TouchableOpacity, Image } from 'react
 import Workout from '../model/workout.js';
 import { createStackNavigator } from '@react-navigation/stack';
 import WOScreen from '../screens/workout-screen';
-import ActionButton from 'react-native-action-button';
+import { FAB } from 'react-native-paper';
 
 const w1 = new Workout('StrongLifts 5X5 A');
 const w2 = new Workout('StrongLifts 5X5 B');
@@ -17,45 +17,35 @@ export default function Home(props) {
   const { navigation } = props
   return (
   
-      <View style={styles.container}>
-            <FlatList data={dummyData}
-                  renderItem={({ item }) => (
+    <View style={styles.container}>
+      <FlatList data={dummyData}
+                keyExtractor = {(item, index) => {return item.key}} 
+                renderItem={({ item }) => (
                     
-                    <TouchableOpacity onPress={() => navigation.navigate('Workout') }>
-                      <View style={styles.row}>
+        <TouchableOpacity onPress={() => alert(item.name) }>
+          <View style={styles.row}>
                         
-                        <Text style={styles.rowText}>{item.name}</Text>
+            <Text style={styles.rowText}>{item.name}</Text>
                         
-                        <View style={styles.rowbuttons}>
-                          <TouchableOpacity onPress={ () => alert('edit ' + item.name)}>
-                            <View style={styles.imagePadding}>
-                              <Image style={styles.image} source={require('../assets/edit.png')}/>
-                            </View>
-                          </TouchableOpacity>
-                          <TouchableOpacity onPress={() => alert('delete ' + item.name)}>
-                            <View style={styles.imagePadding}>
-                              <Image style={styles.image} source={require('../assets/delete.png')}/>
-                            </View>
-                          </TouchableOpacity>
-                        </View>
+              <View style={styles.rowbuttons}>
+                <TouchableOpacity onPress={ () => navigation.navigate('New Workout', {item, isNew: false})}>
+                  <View style={styles.imagePadding}>
+                    <Image style={styles.image} source={require('../assets/edit.png')}/>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => alert('delete ' + item.name)}>
+                  <View style={styles.imagePadding}>
+                    <Image style={styles.image} source={require('../assets/delete.png')}/>
+                  </View>
+                </TouchableOpacity>
+              </View>
 
-                      </View>
-                    </TouchableOpacity>
-                    
-                    )}
-
-                  keyExtractor = {(item, index) => {return item.key}} />
-        
+          </View>
+        </TouchableOpacity>)}/>
+        <FAB style={styles.fab} large icon="plus"
+             onPress={() => navigation.navigate('New Workout', {item: {name: "New Workout"}, isNew: true})}/>
+    </View>
       
-          <ActionButton size={68} buttonColor="#0CCE6D" buttonTextStyle={{fontSize: 55}} 
-           onPress={() =>  alert("hi")}/>
-        
-      
-      </View>
-      
-  
-    
-    
   )
 }
 
@@ -66,7 +56,7 @@ const styles = StyleSheet.create({
     marginLeft: '5%',
     marginTop: '5%',
     marginRight: '5%',
-    marginBottom: '11%'
+    marginBottom: '5%'
   },
   row: {
     flex: 1,
@@ -98,6 +88,11 @@ const styles = StyleSheet.create({
     paddingLeft: 10
   },
   fab: {
-    marginBottom: 50,
-  }
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
+    borderColor: 'black',
+    borderWidth: 1
+  },
 })

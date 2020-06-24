@@ -37,7 +37,7 @@ function StackNav() {
        
       <Stack.Navigator>
         <Stack.Screen options={{headerShown: false}} name = 'Workouts' component={Home}/>
-        <Stack.Screen name = 'Workout' component={WOScreen}/>
+        <Stack.Screen name = 'New Workout' component={WOScreen} options={({ route }) => ({ title: route.params.item.name })}/>
       </Stack.Navigator>
     
     )

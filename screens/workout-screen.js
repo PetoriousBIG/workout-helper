@@ -1,16 +1,18 @@
-import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 
 //a tab for letting the user make customization and contains app info
-export default function WOScreen() {
+export default function WOScreen({route, navigation}) {   
+  const[woName, setWOName] = useState("");
+
+  const { isNew } = route.params
+
   return (
     <View style = {styles.topView}>
       <View>
-        <TouchableOpacity onPress= {() => {
-          alert('Pressed')
-        }}>
-          <Text>Hi</Text>
-        </TouchableOpacity>
+        <Text style = {styles.instructionText}>Enter a name for your workout</Text>
+        <TextInput style = {styles.inputText} placeholder = {woName} textAlign = 'center' value = {woName}
+                   onChangeText={(text) => setWOName(text)} maxLength={25}/>
       </View>
     </View>
   )
@@ -19,10 +21,16 @@ export default function WOScreen() {
 const styles = StyleSheet.create({
 
   topView: {
-    flex: 1
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    marginTop: 10
   },
-
-  optionView: {
-  }
-
+  instructionText: {
+      fontSize: 30,
+  },
+  inputText: {
+      fontSize: 30,
+      borderBottomWidth: 1
+  },
 })
