@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AppConsumer } from '../context/app-context';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput} from 'react-native';
+import { FAB } from 'react-native-paper';
 
 //a tab for letting the user make customization and contains app info
 export default function WOScreen({route, navigation}) {   
@@ -17,13 +18,10 @@ export default function WOScreen({route, navigation}) {
             <TextInput style = {styles.inputText} textAlign = 'center' value = {woName}
                     maxLength={25} onChangeText={text => setWOName(text)}/>
         </View>
-        <View>
-            <TouchableOpacity onPress={() => {
+        <FAB style={styles.fab} large icon="check" color="green"
+              onPress={() => {
                 context.addWorkout({name: woName})
-                navigation.goBack()}}>
-            <Text style={styles.saveText}>Save</Text>
-            </TouchableOpacity>
-        </View>
+                navigation.goBack()}}/>
       </View>)}
     </AppConsumer>
   )
@@ -48,6 +46,14 @@ const styles = StyleSheet.create({
       color: '#37D5F8',
       fontSize: 20,
       textDecorationLine: 'underline'
+  },
+  fab: {
+    position: 'absolute',
+    margin: 32,
+    right: 0,
+    bottom: 0,
+    borderColor: 'black',
+    borderWidth: 1
   },
 
 })
