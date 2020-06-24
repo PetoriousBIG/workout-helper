@@ -15,10 +15,10 @@ export default function Home(props) {
     {(context) => (
       <View style={styles.container}>
         <FlatList data={context.workouts}
-                  keyExtractor = {(item, index) => {return item.key}} 
+                  keyExtractor = {(item, index) => {item.key}} 
                   renderItem={({ item }) => (
                       
-          <TouchableOpacity onPress={() => alert(item.name) }>
+          <TouchableOpacity onPress={() => console.log(item) }>
             <View style={styles.row}>
                           
               <Text style={styles.rowText}>{item.name}</Text>
