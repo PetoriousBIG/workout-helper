@@ -7,13 +7,21 @@ export const AppConsumer = AppContext.Consumer;
 export class AppProvider extends React.Component {
     constructor(props){
         super(props);
-        this.state = ({selectedColor: colorSchemes.default})
+        this.state = ({selectedColor: colorSchemes.default, workouts: []})
+    }
+
+    addWorkout = (wo) => {
+        var wos = this.state.workouts;
+        wos.push(wo);
+        this.setState({workouts: wos})
     }
 
     render() {
         return(
             <AppContext.Provider value = {{colorSchemes: colorSchemes,
-                                           selectedColor: this.state.selectedColor}}>
+                                           selectedColor: this.state.selectedColor,
+                                           workouts: this.state.workouts,
+                                           addWorkout: this.addWorkout}}>
               {this.props.children}
             </AppContext.Provider>
         )
