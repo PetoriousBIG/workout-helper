@@ -15,7 +15,6 @@ export default function Home(props) {
     {(context) => (
       <View style={styles.container}>
         <FlatList data={context.workouts}
-                  keyExtractor = {(item, index) => {item.key}} 
                   renderItem={({ item }) => (
                       
           <TouchableOpacity onPress={() => console.log(item) }>
@@ -29,7 +28,9 @@ export default function Home(props) {
                       <Image style={styles.image} source={require('../assets/edit.png')}/>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => alert('delete ' + item.name)}>
+                  <TouchableOpacity onPress={() => {
+                    console.log(item)
+                    alert('delete ' + item.name)}}>
                     <View style={styles.imagePadding}>
                       <Image style={styles.image} source={require('../assets/delete.png')}/>
                     </View>
