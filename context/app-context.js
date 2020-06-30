@@ -25,13 +25,28 @@ export class AppProvider extends React.Component {
         this.setState({workouts: wos}) 
     }
 
+    deleteWorkout = (key) => {
+        const keyInt = parseInt(key)
+        var wos = this.state.workouts
+        wos.splice(keyInt, 1)
+        for (i = keyInt; i < wos.length; i++){
+            var wo = wos[i]
+            console.log(wo)
+            wo.key = i.toString()
+            wos[i] = wo 
+        }
+        this.setState({workouts: wos})
+        console.log(this.state.workouts)
+    }
+
     render() {
         return(
             <AppContext.Provider value = {{colorSchemes: colorSchemes,
                                            selectedColor: this.state.selectedColor,
                                            workouts: this.state.workouts,
                                            addWorkout: this.addWorkout,
-                                           editWorkout: this.editWorkout}}>
+                                           editWorkout: this.editWorkout,
+                                           deleteWorkout: this.deleteWorkout}}>
               {this.props.children}
             </AppContext.Provider>
         )

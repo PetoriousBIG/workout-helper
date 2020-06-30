@@ -28,9 +28,7 @@ export default function Home(props) {
                       <Image style={styles.image} source={require('../assets/edit.png')}/>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => {
-                    console.log(item)
-                    alert('delete ' + item.name)}}>
+                  <TouchableOpacity onPress={() => context.deleteWorkout(item.key)}>
                     <View style={styles.imagePadding}>
                       <Image style={styles.image} source={require('../assets/delete.png')}/>
                     </View>
