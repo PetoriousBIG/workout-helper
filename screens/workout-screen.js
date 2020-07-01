@@ -7,17 +7,22 @@ import { FAB } from 'react-native-paper';
 export default function WOScreen({route, navigation}) {   
   const[woName, setWOName] = useState(route.params.item.name);
   
+
+  
   return (
     <AppConsumer>
     {(context) => (
       <View style = {styles.topView}>
         <View>
             <Text style = {styles.instructionText}>Enter a name for your workout</Text>
-            <ScrollView keyboardShouldPersistTaps='always'>
-                <TextInput style = {styles.inputText} textAlign = 'center' value = {woName}
-                        maxLength={25} onChangeText={text => setWOName(text)}/>
-            </ScrollView>
+            <TextInput style = {styles.inputText} textAlign = 'center' value = {woName}
+                maxLength={25} onChangeText={text => setWOName(text)}/>
         </View>
+
+        <View style={{marginTop: '5%'}}> 
+            <Text style = {styles.instructionText}>Enter the exercises, sets, and reps for your workout</Text>
+        </View>
+        
         <FAB style={styles.fab} large icon="check" color="green"
               onPress={() => {
 
@@ -50,10 +55,11 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   instructionText: {
-      fontSize: 30,
-  },
+      fontSize: 20, 
+      textAlign: 'center' 
+      },
   inputText: {
-      fontSize: 30,
+      fontSize: 20,
       borderBottomWidth: 1
   },
   saveText: {
