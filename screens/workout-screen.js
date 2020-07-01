@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { AppConsumer } from '../context/app-context';
 import { StyleSheet, Text, View, ScrollView, TextInput} from 'react-native';
+import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import { FAB } from 'react-native-paper';
 
 //a tab for letting the user make customization and contains app info
 export default function WOScreen({route, navigation}) {   
   const[woName, setWOName] = useState(route.params.item.name);
-  
-
+  const tableHeader = ['Exercise', 'Sets', 'Reps']
   
   return (
     <AppConsumer>
@@ -21,6 +21,12 @@ export default function WOScreen({route, navigation}) {
 
         <View style={{marginTop: '5%'}}> 
             <Text style = {styles.instructionText}>Enter the exercises, sets, and reps for your workout</Text>
+        </View>
+
+        <View style={styles.container}>
+          <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
+            <Row data={tableHeader} style={styles.head} textStyle={styles.text}/>
+          </Table>
         </View>
         
         <FAB style={styles.fab} large icon="check" color="green"
@@ -52,28 +58,42 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    marginTop: 10
-  },
+    marginTop: 10 },
+  
   instructionText: {
       fontSize: 20, 
-      textAlign: 'center' 
-      },
+      textAlign: 'center' },
+  
   inputText: {
       fontSize: 20,
-      borderBottomWidth: 1
-  },
+      borderBottomWidth: 1 },
+  
   saveText: {
       color: '#37D5F8',
       fontSize: 20,
-      textDecorationLine: 'underline'
-  },
+      textDecorationLine: 'underline' },
+  
   fab: {
     position: 'absolute',
     margin: 32,
     right: 0,
     bottom: 0,
     borderColor: 'black',
-    borderWidth: 1
-  },
+    borderWidth: 1 },
+  
+  container: {
+    flex: 1, 
+    padding: 16, 
+    paddingTop: 30,
+    alignSelf: 'stretch' 
+    },
+  
+  head: { 
+    height: 40, 
+    backgroundColor: 
+    '#f1f8ff' },
+
+  text: { 
+    margin: 6 }
 
 })
