@@ -6,8 +6,6 @@ import { FAB } from 'react-native-paper';
 //a tab for letting the user make customization and contains app info
 export default function WOScreen({route, navigation}) {   
   const[woName, setWOName] = useState(route.params.item.name);
-
-  React.useEffect(() =>{console.log(woName)}, [woName]);
   
   return (
     <AppConsumer>
@@ -22,6 +20,11 @@ export default function WOScreen({route, navigation}) {
         </View>
         <FAB style={styles.fab} large icon="check" color="green"
               onPress={() => {
+
+                if(woName.length < 1){
+                  alert('Please enter a name for your Workout')
+                  return 
+                }
                 
                 if(route.params.isNew){
                    context.addWorkout(woName)

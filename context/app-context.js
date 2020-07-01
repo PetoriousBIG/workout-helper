@@ -36,7 +36,6 @@ export class AppProvider extends React.Component {
             wos[i] = wo 
         }
         this.setState({workouts: wos})
-        console.log(this.state.workouts)
     }
 
     render() {
