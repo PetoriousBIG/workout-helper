@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { AppConsumer } from '../context/app-context';
-import { StyleSheet, Text, View, ScrollView, TextInput} from 'react-native';
-import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
+import { StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import { FAB } from 'react-native-paper';
+import WorkoutInput from '../components/workoutInput';
 
 //a tab for letting the user make customization and contains app info
 export default function WOScreen({route, navigation}) {   
   const[woName, setWOName] = useState(route.params.item.name);
-  const tableHeader = ['Exercise', 'Sets', 'Reps']
+  const dummyWorkout = [{name: 'Squat', Sets: 5, Reps: 5},
+                        {name: 'Bench Press', Sets: 5, Reps: 5}, 
+                        {name: 'Barbell Row', Sets: 5, Reps: 5}]
   
   return (
     <AppConsumer>
@@ -21,12 +23,11 @@ export default function WOScreen({route, navigation}) {
 
         <View style={{marginTop: '5%'}}> 
             <Text style = {styles.instructionText}>Enter the exercises, sets, and reps for your workout</Text>
+            
         </View>
 
         <View style={styles.container}>
-          <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
-            <Row data={tableHeader} style={styles.head} textStyle={styles.text}/>
-          </Table>
+          <WorkoutInput value={dummyWorkout}/>
         </View>
         
         <FAB style={styles.fab} large icon="check" color="green"
@@ -84,7 +85,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1, 
     padding: 16, 
-    paddingTop: 30,
+    paddingTop: 15,
     alignSelf: 'stretch' 
     },
   
