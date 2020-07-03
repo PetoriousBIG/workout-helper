@@ -7,7 +7,10 @@ export const AppConsumer = AppContext.Consumer;
 export class AppProvider extends React.Component {
     constructor(props){
         super(props);
-        this.state = ({selectedColor: colorSchemes.default, workouts: []})
+        const dummyWorkout = new Workout('StrongLifts', '0', [{name: 'Squat', sets: 5, reps: 5},
+                        {name: 'Bench Press', sets: 5, reps: 5}, 
+                        {name: 'Barbell Row', sets: 5, reps: 5}])
+        this.state = ({selectedColor: colorSchemes.default, workouts: [dummyWorkout]})
     }
 
     addWorkout = (woName) => {
@@ -29,6 +32,7 @@ export class AppProvider extends React.Component {
         const keyInt = parseInt(key)
         var wos = this.state.workouts
         wos.splice(keyInt, 1)
+        var i
         for (i = keyInt; i < wos.length; i++){
             var wo = wos[i]
             console.log(wo)

@@ -1,17 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { AppConsumer } from '../context/app-context';
-import { StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity } from 'react-native';
+import { Keyboard, StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, Button } from 'react-native';
 import { FAB } from 'react-native-paper';
 import WorkoutInput from '../components/workoutInput';
 
 //a tab for letting the user make customization and contains app info
 export default function WOScreen({route, navigation}) {   
-  const[woName, setWOName] = useState(route.params.item.name);
-  const dummyWorkout = [{name: 'Squat', Sets: 5, Reps: 5},
-                        {name: 'Bench Press', Sets: 5, Reps: 5}, 
-                        {name: 'Barbell Row', Sets: 5, Reps: 5}]
-  
+  const[woName, setWOName] = useState(route.params.item.name);  
+  const[kbOpen, setKBOpen] = useState(false);
+
+  useEffect(() => {
+    Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
+    Keyboard.addListener("keyboardDidHide", _keyboardDidHide);
+
+    // cleanup function
+    return () => {
+      Keyboard.removeListener("keyboardDidShow", _keyboardDidShow);
+      Keyboard.removeListener("keyboardDidHide", _keyboardDidHide);
+    };
+  }, []);
+
+  const _keyboardDidShow = () => {
+    setKBOpen(true);
+  };
+
+  const _keyboardDidHide = () => {
+    setKBOpen(false);
+  };
+
   return (
+    
     <AppConsumer>
     {(context) => (
       <View style = {styles.topView}>
@@ -27,10 +45,10 @@ export default function WOScreen({route, navigation}) {
         </View>
 
         <View style={styles.container}>
-          <WorkoutInput value={dummyWorkout}/>
+          <WorkoutInput value={route.params.item}/>
         </View>
         
-        <FAB style={styles.fab} large icon="check" color="green"
+        <FAB style={styles.fab} visible = {!kbOpen} large icon="check" color="green"
               onPress={() => {
 
                 if(woName.length < 1){

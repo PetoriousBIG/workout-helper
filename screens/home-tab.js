@@ -10,6 +10,7 @@ import { FAB } from 'react-native-paper';
 //top level tab navigator. this is the "Home" screen
 export default function Home(props) {
   const { navigation } = props
+  const placeholder = new Workout('New Workout', 0, [{name: 'Exercise', sets: 0, reps: 0}])
   return (
     <AppConsumer>
     {(context) => (
@@ -36,9 +37,11 @@ export default function Home(props) {
                 </View>
 
             </View>
-          </TouchableOpacity>)}/>
+          </TouchableOpacity>)}
+        />
+
           <FAB style={styles.fab} large icon="plus"
-              onPress={() => navigation.navigate('New Workout', {item: {name: "New Workout"}, isNew: true})}/>
+              onPress={() => navigation.navigate('New Workout', {item: placeholder, isNew: true})}/>
       </View>)}
     </AppConsumer>
       
