@@ -5,7 +5,6 @@ export default class WorkoutInput extends Component {
     constructor(props){
         super()
         this.state = {values: props.value.exercises, rows: props.numRows}
-        console.log(this.state.values)
     }
 
     handleChange = (field, input, index) =>{
@@ -23,10 +22,18 @@ export default class WorkoutInput extends Component {
           exercise.reps = input
           break;
         default:
+          alert('Something broke!')
           break;
       }
 
       exerciseList[index] = exercise
+      this.setState({values: exerciseList})
+    }
+
+    addRow = () => {
+      var dummy = {name: '', sets: '', reps: ''}
+      var exerciseList = this.state.values
+      exerciseList.push(dummy)
       this.setState({values: exerciseList})
     }
 
@@ -36,19 +43,19 @@ export default class WorkoutInput extends Component {
 
             <ScrollView style={styles.listContainer}>
               <FlatList keyExtractor={(item, index) => item.key} data={this.state.values} renderItem={({ item, index }) =>(
-                <View style = {{flexDirection: 'row', padding: 5, justifyContent: 'space-around'}}>
-                  <TextInput style={styles.inputText} value={item.name}
-                    onChangeText={(text) => this.handleChange(0, text, index)}/>
-                  <TextInput style={styles.inputText} value = {item.sets.toString()}
-                    onChangeText={(text) => this.handleChange(1, text, index)}/>
-                  <TextInput style={styles.inputText} value = {item.reps.toString()}
-                    onChangeText={(text) => this.handleChange(2, text, index)}/>
+                <View style = {{flexDirection: 'row', padding: 5, justifyContent: 'flex-start'}}>
+                  <TextInput style={styles.nameText} value={item.name} maxLength={25}
+                    onChangeText={(text) => this.handleChange(0, text, index)} placeholder='Exercise'/>
+                  <TextInput style={styles.numText} value = {item.sets.toString()} maxLength={4}
+                    onChangeText={(text) => this.handleChange(1, text, index)} placeholder='Sets'/> 
+                  <TextInput style={styles.numText} value = {item.reps.toString()} maxLength={4}
+                    onChangeText={(text) => this.handleChange(2, text, index)} placeholder='Reps'/>
                 </View>
               )}/>
             </ScrollView>
             
             <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-              <View style={{margin: '2%'}}><Button title="Add Row"/></View>
+              <View style={{margin: '2%'}}><Button title="Add Row" onPress={() => this.addRow()}/></View>
               <View style={{margin: '2%'}}><Button title="Remove Row"/></View>
             </View>
 
@@ -62,8 +69,16 @@ const styles = StyleSheet.create({
         flex: 3,
         borderWidth: 1
     },
-    inputText: {
+    nameText: {
       fontSize: 20,
-      borderBottomWidth: 1 },
+      borderBottomWidth: 1,
+      textAlign: 'center',
+      width: 120 },
+    numText: {
+      fontSize: 20,
+      borderBottomWidth: 1,
+      textAlign: 'center',
+      width: 15,
+      marginLeft: '15%' },
 })
 
