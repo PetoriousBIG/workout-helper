@@ -36,7 +36,6 @@ export class AppProvider extends React.Component {
         var i
         for (i = keyInt; i < wos.length; i++){
             var wo = wos[i]
-            console.log(wo)
             wo.key = i.toString()
             wos[i] = wo 
         }

@@ -29,6 +29,20 @@ export default function WOScreen({route, navigation}) {
     setKBOpen(false);
   };
 
+  const checkNames = (name, exercises) => {
+    if (name.length < 1){
+      return false
+    }
+
+    var i;
+    for (i = 0; i < exercises.length; i++){
+      if(exercises[i].length < 1){
+        return false
+      }
+    }
+    return true
+  }
+
   return (
     
     <AppConsumer>
@@ -52,20 +66,25 @@ export default function WOScreen({route, navigation}) {
         <FAB style={styles.fab} visible = {!kbOpen} large icon="check" color="green"
               onPress={() => {
 
-                if(woName.length < 1){
-                  alert('Please enter a name for your Workout')
-                  return 
-                }
-                
-                if(route.params.isNew){
+                var allNamesValid = checkNames(woName, exercises)
+
+                if(allNamesValid){
+                  if(route.params.isNew){
                    context.addWorkout(woName, exercises)
-                }
+                  }
                 
+                  else{
+                    context.editWorkout({name: woName, exercises: exercises}, route.params.item.key)
+                  }
+                
+                  navigation.goBack()
+                }
+
                 else{
-                  context.editWorkout({name: woName, exercises: exercises}, route.params.item.key)
+                  alert('Invalid input: Please supply a name to workout and all exercises.')
                 }
                 
-                navigation.goBack()}}/>
+                }}/>
       </View>)}
     </AppConsumer>
   )
