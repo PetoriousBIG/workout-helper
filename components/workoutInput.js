@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, FlatList, TextInput, Button, ScrollView} from 'react-native';
+import { Text, View, StyleSheet, FlatList, TextInput, Button, TouchableOpacity, Image } from 'react-native';
 
 export default class WorkoutInput extends Component {
     constructor(props){
         super()
-        this.state = {values: props.value.exercises, rows: props.numRows}
+        var exercises = props.value
+        this.state = {values: exercises, rows: props.numRows}
     }
 
     handleChange = (field, input, index) =>{
@@ -37,11 +38,17 @@ export default class WorkoutInput extends Component {
       this.setState({values: exerciseList})
     }
 
+    deleteRow = (index) => {
+      var exerciseList = this.state.values
+      exerciseList.splice(index, 1)
+      this.setState({values: exerciseList})
+    }
+
     render(){
         return (
           <View style={{flex: 1}}>
 
-            <ScrollView style={styles.listContainer}>
+            
               <FlatList keyExtractor={(item, index) => item.key} data={this.state.values} renderItem={({ item, index }) =>(
                 <View style = {{flexDirection: 'row', padding: 5, justifyContent: 'flex-start'}}>
                   <TextInput style={styles.nameText} value={item.name} maxLength={25}
@@ -50,13 +57,17 @@ export default class WorkoutInput extends Component {
                     onChangeText={(text) => this.handleChange(1, text, index)} placeholder='Sets'/> 
                   <TextInput style={styles.numText} value = {item.reps.toString()} maxLength={4}
                     onChangeText={(text) => this.handleChange(2, text, index)} placeholder='Reps'/>
+                  <TouchableOpacity onPress={() => this.deleteRow(index)}>
+                    <View style={styles.imagePadding}>
+                      <Image style={styles.image} source={require('../assets/delete.png')}/>
+                    </View>
+                  </TouchableOpacity>
                 </View>
               )}/>
-            </ScrollView>
+            
             
             <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-              <View style={{margin: '2%'}}><Button title="Add Row" onPress={() => this.addRow()}/></View>
-              <View style={{margin: '2%'}}><Button title="Remove Row"/></View>
+              <Button title="Add Row" onPress={() => this.addRow()}/>
             </View>
 
           </View>
@@ -79,6 +90,11 @@ const styles = StyleSheet.create({
       borderBottomWidth: 1,
       textAlign: 'center',
       width: 15,
-      marginLeft: '15%' },
+      marginLeft: '10%' },
+    image: {
+      width: 24,
+      height: 24,
+      marginLeft:'10%'
+  },
 })
 

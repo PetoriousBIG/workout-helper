@@ -6,7 +6,8 @@ import WorkoutInput from '../components/workoutInput';
 
 //a tab for letting the user make customization and contains app info
 export default function WOScreen({route, navigation}) {   
-  const[woName, setWOName] = useState(route.params.item.name);  
+  const[woName, setWOName] = useState(route.params.item.name);
+  const[exercises, setExercises] = useState(route.params.item.exercises);   
   const[kbOpen, setKBOpen] = useState(false);
 
   useEffect(() => {
@@ -45,7 +46,7 @@ export default function WOScreen({route, navigation}) {
         </View>
 
         <View style={styles.container}>
-          <WorkoutInput value={route.params.item}/>
+          <WorkoutInput value={exercises}/>
         </View>
         
         <FAB style={styles.fab} visible = {!kbOpen} large icon="check" color="green"
@@ -57,11 +58,11 @@ export default function WOScreen({route, navigation}) {
                 }
                 
                 if(route.params.isNew){
-                   context.addWorkout(woName)
+                   context.addWorkout(woName, exercises)
                 }
                 
                 else{
-                  context.editWorkout({name: woName}, route.params.item.key)
+                  context.editWorkout({name: woName, exercises: exercises}, route.params.item.key)
                 }
                 
                 navigation.goBack()}}/>

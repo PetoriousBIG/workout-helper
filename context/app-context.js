@@ -13,9 +13,9 @@ export class AppProvider extends React.Component {
         this.state = ({selectedColor: colorSchemes.default, workouts: [dummyWorkout]})
     }
 
-    addWorkout = (woName) => {
+    addWorkout = (woName, exercises) => {
         var wos = this.state.workouts;
-        const wo = new Workout(woName, (wos.length).toString())
+        const wo = new Workout(woName, (wos.length).toString(), exercises)
         wos.push(wo);
         this.setState({workouts: wos})
     }
@@ -24,6 +24,7 @@ export class AppProvider extends React.Component {
         var wos = this.state.workouts
         var woAtIndex = wos[parseInt(key)]
         woAtIndex.name = data.name
+        woAtIndex.exercises = data.exercises
         wos[woAtIndex.key] = woAtIndex
         this.setState({workouts: wos}) 
     }

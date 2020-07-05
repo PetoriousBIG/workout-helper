@@ -24,7 +24,11 @@ export default function Home(props) {
               <Text style={styles.rowText}>{item.name}</Text>
                           
                 <View style={styles.rowbuttons}>
-                  <TouchableOpacity onPress={ () => navigation.navigate('New Workout', {item, isNew: false})}>
+                  <TouchableOpacity onPress={ () => {
+                    
+                    const itemDeepCopy = JSON.parse(JSON.stringify(item))
+                    navigation.navigate('New Workout', {item: itemDeepCopy, isNew: false})}}>
+                    
                     <View style={styles.imagePadding}>
                       <Image style={styles.image} source={require('../assets/edit.png')}/>
                     </View>
@@ -41,7 +45,7 @@ export default function Home(props) {
         />
 
           <FAB style={styles.fab} large icon="plus"
-              onPress={() => navigation.navigate('New Workout', {item: placeholder, isNew: true)}}/>
+              onPress={() => navigation.navigate('New Workout', {item: placeholder, isNew: true})}/>
       </View>)}
     </AppConsumer>
       
