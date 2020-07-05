@@ -9,7 +9,7 @@ export default function Options() {
         <TouchableOpacity onPress= {() => {
           alert('Pressed')
         }}>
-          <Text>Select Color Scheme</Text>
+          <Text>Hello World</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -19,7 +19,8 @@ export default function Options() {
 const styles = StyleSheet.create({
 
   topView: {
-    flex: 1
+    flex: 1,
+    justifyContent: 'center'
   },
 
   optionView: {

@@ -8,6 +8,7 @@ import Home from '../screens/home-tab.js';
 import Rest from '../screens/rest-tab.js';
 import Options from '../screens/options.js';
 import WOScreen from '../screens/workout-screen.js'
+import DoWorkoutScreen from '../screens/doWorkout.js';
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -39,6 +40,7 @@ function StackNav() {
         <Stack.Screen options={{headerShown: false}} name = 'Workouts' component={Home}/>
         <Stack.Screen name = 'New Workout' component={WOScreen} 
           options={({ route }) => ({ title: route.params.item.name})}/>
+        <Stack.Screen name = 'Do Workout' component={DoWorkoutScreen}/>
       </Stack.Navigator>
     
     )

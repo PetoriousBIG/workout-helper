@@ -56,12 +56,22 @@ export default function Rest() {
 
   const secDown = () => {
     var m = parseInt(sec)-1
+
+    if(m < 0){
+      m = 59
+    }
+
     const s = fixString(m)
     setSec(s)
   }
 
   const secUp = () => {
     var m = parseInt(sec)+1
+
+    if(m > 59){
+      m = 0
+    }
+    
     const s = fixString(m)
     setSec(s)
   }
