@@ -28,7 +28,6 @@ export default class WorkoutInput extends Component {
       }
 
       exerciseList[index] = exercise
-      var zero = 0
       this.setState({values: exerciseList})
     }
 
