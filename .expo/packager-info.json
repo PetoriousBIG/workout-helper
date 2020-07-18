@@ -2,8 +2,9 @@
   "devToolsPort": 19002,
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 3292,
-  "expoServerNgrokUrl": "https://5k-wwe.anonymous.workout-helper.exp.direct",
-  "packagerNgrokUrl": "https://packager.5k-wwe.anonymous.workout-helper.exp.direct",
-  "ngrokPid": 1008
+  "packagerPid": 114086,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null,
+  "webpackServerPort": null
 }
