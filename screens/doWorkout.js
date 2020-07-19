@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import { StyleSheet, Text, View, FlatList, Modal, TouchableOpacity, TextInput} from 'react-native';
+import { AppConsumer } from '../context/app-context';
+
 import Set from '../model/set.js';
+import Record from '../model/record.js';
 import { FAB } from 'react-native-paper';
 
 //screen for user to store results of in progress workout instance
@@ -59,74 +62,104 @@ export default class DoWorkoutScreen extends Component {
     this.setState({isModalVisible: false})
   }
 
+  buildRecord = () => {
+    const header = this.createHeader()
+    const body = this.createBody()
+    return new Record(header, body)
+  }
+
+  createBody = () => {
+    var body = ""
+    const results = this.state.workoutResults
+    results.forEach(element => {
+      body += element.exercise + " " + element.completedReps + "/" + element.goalReps + " @ " + element.weight + "\n"
+    })
+    return body
+  }
+
+  createHeader = () => {
+    const name = this.props.route.params.item.name
+    const now = new Date()
+    const nowString = now.getUTCMonth() + "/" + now.getUTCDate() + "/" + now.getUTCFullYear()
+    return name + " " + nowString
+  }
+
   saveChanges = () => {
     this.setExerciseResults(this.state.modalIsEditing, this.state.modalReps, this.state.modalWeight)
     this.dismissModal()
   }
+
   render() {
     return (
-      <View>
+      <AppConsumer>
+      {(context) => (
+        <View>
 
-        <Modal animationType = {"slide"} transparent = {false}
-              visible = {this.state.isModalVisible}>
-                
-          <View style = {styles.modal}>
-            <Text style = {styles.text}>Set weight and reps:</Text>
-              <View style={styles.row}>
-                <Text style={styles.text}>Weight: </Text>
-                <TextInput style={styles.numText} value = {this.state.modalWeight} maxLength={4} placeholder='lbs'
-                  keyboardType={'numeric'} onChangeText={(text) => this.setState({modalWeight: text})}
-                  onEndEditing={(event) => {
-                    const cleanInput = this.cleanNum(event)
-                    this.setState({modalWeight: cleanInput})}}/>
-              </View>
-              <View style={styles.row}>
-                <Text style={styles.text}>Reps: </Text>
-                <TextInput style={styles.numText} value = {this.state.modalReps} maxLength={4} placeholder='Reps'
-                  keyboardType={'numeric'} onChangeText={(text) => this.setState({modalReps: text})}
-                  onEndEditing={(event) => {
-                    const cleanInput = this.cleanNum(event)
-                    this.setState({modalReps: cleanInput})}}/>
-              </View>
-            <View style={styles.row}>
-              <TouchableOpacity onPress = {() => {
-                this.saveChanges()}}>
-                <View style={{marginRight: '5%'}}>  
-                  <Text style = {styles.text}>Save</Text>
+          <Modal animationType = {"slide"} transparent = {false}
+                visible = {this.state.isModalVisible}>
+                  
+            <View style = {styles.modal}>
+              <Text style = {styles.text}>Set weight and reps:</Text>
+                <View style={styles.row}>
+                  <Text style={styles.text}>Weight: </Text>
+                  <TextInput style={styles.numText} value = {this.state.modalWeight} maxLength={4} placeholder='lbs'
+                    keyboardType={'numeric'} onChangeText={(text) => this.setState({modalWeight: text})}
+                    onEndEditing={(event) => {
+                      const cleanInput = this.cleanNum(event)
+                      this.setState({modalWeight: cleanInput})}}/>
                 </View>
-              </TouchableOpacity>
+                <View style={styles.row}>
+                  <Text style={styles.text}>Reps: </Text>
+                  <TextInput style={styles.numText} value = {this.state.modalReps} maxLength={4} placeholder='Reps'
+                    keyboardType={'numeric'} onChangeText={(text) => this.setState({modalReps: text})}
+                    onEndEditing={(event) => {
+                      const cleanInput = this.cleanNum(event)
+                      this.setState({modalReps: cleanInput})}}/>
+                </View>
+              <View style={styles.row}>
+                <TouchableOpacity onPress = {() => {
+                  this.saveChanges()}}>
+                  <View style={{marginRight: '5%'}}>  
+                    <Text style = {styles.text}>Save</Text>
+                  </View>
+                </TouchableOpacity>
 
-              <TouchableOpacity onPress = {() => {
-                this.dismissModal()}}>
-                <View styles={{marginLeft: '5%'}}>  
-                  <Text style = {styles.text}>Dismiss</Text>
-                </View>
-              </TouchableOpacity>
+                <TouchableOpacity onPress = {() => {
+                  this.dismissModal()}}>
+                  <View styles={{marginLeft: '5%'}}>  
+                    <Text style = {styles.text}>Dismiss</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+                      
             </View>
-                    
-          </View>
-          </Modal>
-        
-
-        <FlatList data={this.state.workoutResults}
-                  keyExtractor={(item, index) => item.key}
-                  renderItem={({ item, index }) => (
-                      <TouchableOpacity onPress={() => {
-                        this.setState({modalIsEditing: index})
-                        this.setState({isModalVisible: true})
-                      }}>
-                          <View style = {[styles.flatList, 
-                            item.completedReps >= item.goalReps ? {backgroundColor: '#5EFCAD'} : {backgroundColor: '#FF7394'}]}>
-                              <Text style = {styles.text}>{item.exercise}: {item.completedReps}/{item.goalReps} @ {item.weight}</Text>
-                          </View>
-                      </TouchableOpacity>
-                  )}>
+            </Modal>
           
-        </FlatList>
 
-        <FAB style={styles.fab} large icon="plus"
-              onPress={() => alert('pressed')}/>
-      </View>
+          <FlatList data={this.state.workoutResults}
+                    keyExtractor={(item, index) => item.key}
+                    renderItem={({ item, index }) => (
+                        <TouchableOpacity onPress={() => {
+                          this.setState({modalIsEditing: index})
+                          this.setState({isModalVisible: true})
+                        }}>
+                            <View style = {[styles.flatList, 
+                              item.completedReps >= item.goalReps ? {backgroundColor: '#5EFCAD'} : {backgroundColor: '#FF7394'}]}>
+                                <Text style = {styles.text}>{item.exercise}: {item.completedReps}/{item.goalReps} @ {item.weight}</Text>
+                            </View>
+                        </TouchableOpacity>
+                    )}>
+            
+          </FlatList>
+
+          <FAB style={styles.fab} large icon="plus"
+                onPress={() => {
+                  const record = this.buildRecord()
+                  context.addRecord(record)
+                  this.props.navigation.goBack()
+                }}/>
+        </View>)}
+      </AppConsumer>
     )
   }
 }

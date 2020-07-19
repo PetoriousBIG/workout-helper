@@ -10,7 +10,7 @@ export class AppProvider extends React.Component {
         const dummyWorkout = new Workout('StrongLifts', '0', [{name: 'Squat', sets: 5, reps: 5},
                         {name: 'Bench Press', sets: 5, reps: 5}, 
                         {name: 'Barbell Row', sets: 5, reps: 5}])
-        this.state = ({selectedColor: colorSchemes.default, workouts: [dummyWorkout]})
+        this.state = ({selectedColor: colorSchemes.default, workouts: [dummyWorkout], records: []})
     }
 
     addWorkout = (woName, exercises) => {
@@ -42,14 +42,22 @@ export class AppProvider extends React.Component {
         this.setState({workouts: wos})
     }
 
+    addRecord = (record) => {
+        var records = this.state.records
+        records.push(record)
+        this.setState({records: records})
+    }
+
     render() {
         return(
             <AppContext.Provider value = {{colorSchemes: colorSchemes,
                                            selectedColor: this.state.selectedColor,
                                            workouts: this.state.workouts,
+                                           records: this.state.records,
                                            addWorkout: this.addWorkout,
                                            editWorkout: this.editWorkout,
-                                           deleteWorkout: this.deleteWorkout}}>
+                                           deleteWorkout: this.deleteWorkout, 
+                                           addRecord: this.addRecord}}>
               {this.props.children}
             </AppContext.Provider>
         )
