@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { StyleSheet, Text, View, FlatList, Modal, TouchableOpacity, TextInput} from 'react-native';
 import Set from '../model/set.js';
+import { FAB } from 'react-native-paper';
 
 //screen for user to store results of in progress workout instance
 export default class DoWorkoutScreen extends Component {
@@ -122,6 +123,9 @@ export default class DoWorkoutScreen extends Component {
                   )}>
           
         </FlatList>
+
+        <FAB style={styles.fab} large icon="plus"
+              onPress={() => alert('pressed')}/>
       </View>
     )
   }
@@ -140,14 +144,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 50,
- },
- row: {
+  },
+  row: {
    flexDirection : 'row',
- },
- numText: {
-  fontSize: 25,
-  borderBottomWidth: 1,
-  textAlign: 'center',
-  width: 15,
-  marginLeft: '10%' },
+  },
+  numText: {
+    fontSize: 25,
+    borderBottomWidth: 1,
+    textAlign: 'center',
+    width: 15,
+    marginLeft: '10%' },
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
+    borderColor: 'black',
+    borderWidth: 1,
+  }
 })

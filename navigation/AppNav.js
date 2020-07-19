@@ -9,6 +9,7 @@ import Rest from '../screens/rest-tab.js';
 import Options from '../screens/options.js';
 import WOScreen from '../screens/workout-screen.js'
 import DoWorkoutScreen from '../screens/doWorkout.js';
+import Records from '../screens/records.js';
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -25,6 +26,7 @@ function TopLevelTabsNav() {
           }}>
           <Tab.Screen name = 'Workouts' component={StackNav}/>
           <Tab.Screen name = 'Rest' component={Rest}/>
+          <Tab.Screen name = 'Records' component={Records}/>
           <Tab.Screen name = 'Options' component={Options}/>
         </Tab.Navigator>
       </NavigationContainer>

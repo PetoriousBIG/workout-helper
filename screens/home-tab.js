@@ -2,8 +2,6 @@ import React from 'react';
 import { Text, View, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
 import Workout from '../model/workout.js';
 import { AppConsumer } from '../context/app-context';
-import { createStackNavigator } from '@react-navigation/stack';
-import WOScreen from '../screens/workout-screen';
 import { FAB } from 'react-native-paper';
 
 //the workout list screen. this is the fist tab used in 
