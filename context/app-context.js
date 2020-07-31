@@ -1,5 +1,6 @@
 import React from 'react';
 import Workout from '../model/workout';
+import Record from '../model/record';
 
 export const AppContext = React.createContext();
 export const AppConsumer = AppContext.Consumer;
@@ -42,9 +43,23 @@ export class AppProvider extends React.Component {
         this.setState({workouts: wos})
     }
 
-    addRecord = (record) => {
+    addRecord = (header, body) => {
         var records = this.state.records
-        records.push(record)
+        records.push(new Record(header, body, (records.length).toString()))
+        console.log(records)
+        this.setState({records: records})
+    }
+
+    deleteRecord = (key) => {
+        const keyInt = parseInt(key)
+        var records = this.state.records
+        records.splice(keyInt, 1)
+        var i
+        for (i = keyInt; i < records.length; i++){
+            var record = records[i]
+            record.key = i.toString()
+            records[i] = record
+        }
         this.setState({records: records})
     }
 
@@ -57,7 +72,8 @@ export class AppProvider extends React.Component {
                                            addWorkout: this.addWorkout,
                                            editWorkout: this.editWorkout,
                                            deleteWorkout: this.deleteWorkout, 
-                                           addRecord: this.addRecord}}>
+                                           addRecord: this.addRecord,
+                                           deleteRecord: this.deleteRecord}}>
               {this.props.children}
             </AppContext.Provider>
         )

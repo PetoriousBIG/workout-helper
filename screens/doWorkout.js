@@ -62,12 +62,6 @@ export default class DoWorkoutScreen extends Component {
     this.setState({isModalVisible: false})
   }
 
-  buildRecord = () => {
-    const header = this.createHeader()
-    const body = this.createBody()
-    return new Record(header, body)
-  }
-
   createBody = () => {
     var body = ""
     const results = this.state.workoutResults
@@ -93,7 +87,7 @@ export default class DoWorkoutScreen extends Component {
     return (
       <AppConsumer>
       {(context) => (
-        <View>
+        <View styles={styles.container}>
 
           <Modal animationType = {"slide"} transparent = {false}
                 visible = {this.state.isModalVisible}>
@@ -154,8 +148,9 @@ export default class DoWorkoutScreen extends Component {
 
           <FAB style={styles.fab} large icon="plus"
                 onPress={() => {
-                  const record = this.buildRecord()
-                  context.addRecord(record)
+                  const header = this.createHeader()
+                  const body = this.createBody()
+                  context.addRecord(header, body)
                   this.props.navigation.goBack()
                 }}/>
         </View>)}
@@ -165,6 +160,14 @@ export default class DoWorkoutScreen extends Component {
 }
 
 const styles = StyleSheet.create({
+  container : {
+    flex: 1,
+    justifyContent: "flex-start",
+    marginLeft: '5%',
+    marginTop: '5%',
+    marginRight: '5%',
+    marginBottom: '5%'
+  },
   flatList: {
       padding: 15,
       borderWidth: .5

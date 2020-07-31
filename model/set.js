@@ -1,3 +1,4 @@
+//
 export default class Set {
     constructor(exercise, goalReps, completedReps, weight) {
         this.exercise = exercise
