@@ -1,9 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 8748,
-  "expoServerNgrokUrl": "https://jz-jar.anonymous.workout-helper.exp.direct",
-  "packagerNgrokUrl": "https://packager.jz-jar.anonymous.workout-helper.exp.direct",
-  "ngrokPid": 7988
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null,
+  "webpackServerPort": null
 }

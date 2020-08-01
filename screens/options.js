@@ -1,16 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 
+//a tab for letting the user make customization and contains app info
 export default function Options() {
   return (
     <View style = {styles.topView}>
-      <View>
-        <TouchableOpacity onPress= {() => {
-          alert('Pressed')
-        }}>
-          <Text>Select Color Scheme</Text>
-        </TouchableOpacity>
-      </View>
+      
+          <Text>Hello World</Text>
+
     </View>
   )
 }
@@ -18,10 +15,9 @@ export default function Options() {
 const styles = StyleSheet.create({
 
   topView: {
-    flex: 1
+    flex: 1,
+    justifyContent: 'center',
+    alignContent: 'center'
   },
-
-  optionView: {
-  }
 
 })
