@@ -56,9 +56,7 @@ const styles = StyleSheet.create({
     marginLeft: '5%',
     marginTop: '5%',
     marginRight: '5%',
-    marginBottom: '5%',
-    borderWidth: 10,
-    borderColor: 'red'
+    marginBottom: '5%'
   },
   row: {
     flex: 1,
