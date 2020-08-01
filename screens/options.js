@@ -5,13 +5,9 @@ import { StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 export default function Options() {
   return (
     <View style = {styles.topView}>
-      <View>
-        <TouchableOpacity onPress= {() => {
-          alert('Pressed')
-        }}>
+      
           <Text>Hello World</Text>
-        </TouchableOpacity>
-      </View>
+
     </View>
   )
 }
@@ -20,10 +16,8 @@ const styles = StyleSheet.create({
 
   topView: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignContent: 'center'
   },
-
-  optionView: {
-  }
 
 })

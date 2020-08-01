@@ -67,6 +67,7 @@ export default function WOScreen({route, navigation}) {
               onPress={() => {
 
                 var allNamesValid = checkNames(woName, exercises)
+                var checkNums
 
                 if(allNamesValid){
                   if(route.params.isNew){
