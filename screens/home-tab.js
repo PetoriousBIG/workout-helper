@@ -39,8 +39,7 @@ export default function Home(props) {
                 </View>
 
             </View>
-          </TouchableOpacity>)}
-        />
+          </TouchableOpacity>)}/>
 
           <FAB style={styles.fab} large icon="plus"
               onPress={() => navigation.navigate('New Workout', {item: placeholder, isNew: true})}/>
@@ -57,7 +56,9 @@ const styles = StyleSheet.create({
     marginLeft: '5%',
     marginTop: '5%',
     marginRight: '5%',
-    marginBottom: '5%'
+    marginBottom: '5%',
+    borderWidth: 10,
+    borderColor: 'red'
   },
   row: {
     flex: 1,

@@ -46,7 +46,6 @@ export class AppProvider extends React.Component {
     addRecord = (header, body) => {
         var records = this.state.records
         records.push(new Record(header, body, (records.length).toString()))
-        console.log(records)
         this.setState({records: records})
     }
 
