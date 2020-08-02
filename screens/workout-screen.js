@@ -29,14 +29,33 @@ export default function WOScreen({route, navigation}) {
     setKBOpen(false);
   };
 
-  const checkNames = (name, exercises) => {
-    if (name.length < 1){
+  const checkInputs = () => {
+    const areNamesValid = checkNames()
+    const areSetsAndRepsValid = checkSetsAndReps()
+    return areNamesValid && areSetsAndRepsValid
+  }
+
+  const checkNames = () => {
+    if (woName.length < 1 || exercises.length == 0){
       return false
     }
 
     var i;
     for (i = 0; i < exercises.length; i++){
-      if(exercises[i].length < 1){
+      if(exercises[i].name.length < 1){
+        return false
+      }
+    }
+    return true
+  }
+
+  const checkSetsAndReps = () => {
+    if (exercises.length == 0){
+      return false
+    }
+    var i;
+    for (i = 0; i < exercises.length; i++){
+      if(exercises[i].sets == '' || exercises[i].reps == ''){
         return false
       }
     }
@@ -66,10 +85,9 @@ export default function WOScreen({route, navigation}) {
         <FAB style={styles.fab} visible = {!kbOpen} large icon="check" color="green"
               onPress={() => {
 
-                var allNamesValid = checkNames(woName, exercises)
-                var checkNums
+                const isValidWorkout = checkInputs()
 
-                if(allNamesValid){
+                if(isValidWorkout){
                   if(route.params.isNew){
                    context.addWorkout(woName, exercises)
                   }
@@ -82,7 +100,8 @@ export default function WOScreen({route, navigation}) {
                 }
 
                 else{
-                  alert('Invalid input: Please supply a name to workout and all exercises.')
+                  alert('Invalid input: Please supply a Name to Workout and all exercises. ' +
+                  'Additionally please make sure all Sets and Reps fields have values.')
                 }
                 
                 }}/>
