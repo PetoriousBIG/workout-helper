@@ -4,8 +4,9 @@ Created in React Native to be used on the Android Platform
 
 ## TODO:
 - Fix the FAB on the do workout screen so that Flatlist length doesn't change its position. (IMPORTANT) (SOLVED)
-- Add Workout Screen Bug: Keyboard auto dismisses on exercise name at 3 input row (IMPORTANT)
+- Add Workout Screen Bug: Keyboard auto dismisses on exercise name at 3 input row (IMPORTANT) (SOLVED)
 - Data Persistance on Workout List and Records (IMPORTANT) (SOLVED)
+- Workouts can be submitted with exercises that do not have name/sets/reps. This needs to be fixed (IMPORTANT)
 - Make the Workout list screen look cleaner (IMPORTANT)
 - Implement saving workout progress/clearing workout progress (IMPORTANT)
 - Implement automatic versioning (IMPORTANT)

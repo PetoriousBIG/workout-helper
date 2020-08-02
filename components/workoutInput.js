@@ -62,7 +62,7 @@ export default class WorkoutInput extends Component {
           <View style={{flex: 1}}>
 
             
-              <FlatList keyExtractor={(item, index) => item.key} data={this.state.values} renderItem={({ item, index }) =>(
+              <FlatList keyExtractor={(item, index) => item.key} removeClippedSubviews={false} data={this.state.values} renderItem={({ item, index }) =>(
                 <View style = {{flexDirection: 'row', padding: 5, justifyContent: 'flex-start'}}>
                   <TextInput style={styles.nameText} value={item.name} maxLength={25} placeholder='Exercise'
                     onChangeText={(text) => this.handleChange(0, text, index)}/>
