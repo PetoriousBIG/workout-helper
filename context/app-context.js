@@ -1,7 +1,7 @@
 import React from 'react';
 import Workout from '../model/workout';
 import Record from '../model/record';
-import {saveWorkouts, fetchWorkouts} from '../storage/DataPersistance'
+import {saveWorkouts, fetchWorkouts, saveRecords, fetchRecords} from '../storage/DataPersistance'
 
 export const AppContext = React.createContext();
 export const AppConsumer = AppContext.Consumer;
@@ -14,7 +14,8 @@ export class AppProvider extends React.Component {
 
     async componentDidMount() {
         const wos = await fetchWorkouts()
-        this.setState({workouts: wos})
+        const recs = await fetchRecords()
+        this.setState({workouts: wos, records: recs})
       }
       
 
@@ -53,6 +54,7 @@ export class AppProvider extends React.Component {
         var records = this.state.records
         records.push(new Record(header, body, (records.length).toString()))
         this.setState({records: records})
+        saveRecords(this.state.records)
     }
 
     deleteRecord = (key) => {
@@ -66,6 +68,7 @@ export class AppProvider extends React.Component {
             records[i] = record
         }
         this.setState({records: records})
+        saveRecords(this.state.records)
     }
 
     render() {
