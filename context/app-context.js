@@ -33,7 +33,8 @@ export class AppProvider extends React.Component {
         woAtIndex.name = data.name
         woAtIndex.exercises = data.exercises
         wos[woAtIndex.key] = woAtIndex
-        this.setState({workouts: wos}) 
+        this.setState({workouts: wos})
+        saveWorkouts(this.state.workouts) 
     }
 
     deleteWorkout = (key) => {
