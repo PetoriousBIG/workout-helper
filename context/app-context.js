@@ -1,6 +1,7 @@
 import React from 'react';
 import Workout from '../model/workout';
 import Record from '../model/record';
+import {saveWorkouts, fetchWorkouts} from '../storage/DataPersistance'
 
 export const AppContext = React.createContext();
 export const AppConsumer = AppContext.Consumer;
@@ -8,17 +9,21 @@ export const AppConsumer = AppContext.Consumer;
 export class AppProvider extends React.Component {
     constructor(props){
         super(props);
-        const dummyWorkout = new Workout('StrongLifts', '0', [{name: 'Squat', sets: 5, reps: 5},
-                        {name: 'Bench Press', sets: 5, reps: 5}, 
-                        {name: 'Barbell Row', sets: 5, reps: 5}])
-        this.state = ({selectedColor: colorSchemes.default, workouts: [dummyWorkout], records: []})
+        this.state = ({selectedColor: colorSchemes.default, workouts: [], records: []})
     }
+
+    async componentDidMount() {
+        const wos = await fetchWorkouts()
+        this.setState({workouts: wos})
+      }
+      
 
     addWorkout = (woName, exercises) => {
         var wos = this.state.workouts;
         const wo = new Workout(woName, (wos.length).toString(), exercises)
         wos.push(wo);
         this.setState({workouts: wos})
+        saveWorkouts(this.state.workouts)
     }
 
     editWorkout = (data, key) => {
@@ -41,6 +46,7 @@ export class AppProvider extends React.Component {
             wos[i] = wo 
         }
         this.setState({workouts: wos})
+        saveWorkouts(this.state.workouts)
     }
 
     addRecord = (header, body) => {
