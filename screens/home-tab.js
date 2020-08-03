@@ -8,15 +8,16 @@ import { FAB } from 'react-native-paper';
 //top level tab navigator. this is the "Home" screen
 export default function Home(props) {
   const { navigation } = props
-  const placeholder = new Workout('New Workout', 0, [{name: '', sets: '', reps: ''}])
   return (
     <AppConsumer>
     {(context) => (
       <View style={styles.container}>
         <FlatList data={context.workouts}
-                  renderItem={({ item }) => (
+                  renderItem={({ item, index }) => (
                       
-          <TouchableOpacity onPress={() => navigation.navigate('Do Workout', {item}) }>
+          <TouchableOpacity onPress={() => {
+            console.log(item)
+            navigation.navigate('Do Workout', {item}) }}>
             <View style={styles.row}>
                           
               <Text style={styles.rowText}>{item.name}</Text>
@@ -25,6 +26,7 @@ export default function Home(props) {
                   <TouchableOpacity onPress={ () => {
                     
                     const itemDeepCopy = JSON.parse(JSON.stringify(item))
+                    console.log(itemDeepCopy)
                     navigation.navigate('New Workout', {item: itemDeepCopy, isNew: false})}}>
                     
                     <View style={styles.imagePadding}>
@@ -42,7 +44,8 @@ export default function Home(props) {
           </TouchableOpacity>)}/>
 
           <FAB style={styles.fab} large icon="plus"
-              onPress={() => navigation.navigate('New Workout', {item: placeholder, isNew: true})}/>
+              onPress={() => 
+              navigation.navigate('New Workout', {item: new Workout('New Workout', 0, [{name: '', sets: '', reps: ''}]), isNew: true})}/>
       </View>)}
     </AppConsumer>
       

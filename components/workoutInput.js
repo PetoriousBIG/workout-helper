@@ -4,9 +4,7 @@ import { Text, View, StyleSheet, FlatList, TextInput, Button, TouchableOpacity, 
 export default class WorkoutInput extends Component {
     constructor(props){
         super()
-        console.log(props)
         var exercises = props.value
-        console.log(exercises.length)
         this.state = {values: exercises, rows: exercises.length}
     }
 

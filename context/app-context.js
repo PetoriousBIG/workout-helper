@@ -25,6 +25,7 @@ export class AppProvider extends React.Component {
         wos.push(wo);
         this.setState({workouts: wos})
         saveWorkouts(this.state.workouts)
+        console.log("added")
     }
 
     editWorkout = (data, key) => {
@@ -34,7 +35,8 @@ export class AppProvider extends React.Component {
         woAtIndex.exercises = data.exercises
         wos[woAtIndex.key] = woAtIndex
         this.setState({workouts: wos})
-        saveWorkouts(this.state.workouts) 
+        saveWorkouts(this.state.workouts)
+        console.log("edited")
     }
 
     deleteWorkout = (key) => {
