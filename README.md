@@ -8,7 +8,7 @@ Created in React Native to be used on the Android Platform
 - ~Data Persistance on Workout List and Records (IMPORTANT)~
 - ~Workouts can be submitted with exercises that do not have name/sets/reps. This needs to be fixed (IMPORTANT)~
 - ~Implement screen reset and dismissal of changes notice when exiting add/edit screen without setting (IMPORTANT)~
-- Make the Workout list screen look cleaner (IMPORTANT)
+- ~Make the Workout list screen look cleaner (IMPORTANT)~
 - Implement saving workout progress/clearing workout progress (IMPORTANT)
 - Implement automatic versioning (IMPORTANT)
 - Refactor styles, implement some global styles

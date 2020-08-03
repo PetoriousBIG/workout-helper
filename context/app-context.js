@@ -9,7 +9,7 @@ export const AppConsumer = AppContext.Consumer;
 export class AppProvider extends React.Component {
     constructor(props){
         super(props);
-        this.state = ({selectedColor: colorSchemes.default, workouts: [], records: []})
+        this.state = ({ workouts: [], records: []})
     }
 
     async componentDidMount() {
@@ -72,6 +72,12 @@ export class AppProvider extends React.Component {
         saveRecords(this.state.records)
     }
 
+    clearAllData = () => {
+        this.setState({records: [], workouts: []})
+        saveWorkouts(this.state.workouts)
+        saveRecords(this.state.records)
+    }
+
     render() {
         return(
             <AppContext.Provider value = {{workouts: this.state.workouts,
@@ -80,7 +86,8 @@ export class AppProvider extends React.Component {
                                            editWorkout: this.editWorkout,
                                            deleteWorkout: this.deleteWorkout, 
                                            addRecord: this.addRecord,
-                                           deleteRecord: this.deleteRecord}}>
+                                           deleteRecord: this.deleteRecord,
+                                           clearAllData: this.clearAllData}}>
               {this.props.children}
             </AppContext.Provider>
         )

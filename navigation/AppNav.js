@@ -16,29 +16,20 @@ const Stack = createStackNavigator();
 
 function TopLevelTabsNav() {
   return (
-    <AppConsumer>
-    {(context) => (
-      <NavigationContainer>
-        <Tab.Navigator tabBarOptions={{
-            activeTintColor: context.selectedColor.atColor,
-            inactiveTintColor: context.selectedColor.itColor,
-            style: {backgroundColor: context.selectedColor.bg}
-          }}>
-          <Tab.Screen name = 'Workouts' component={StackNav}/>
-          <Tab.Screen name = 'Rest' component={Rest}/>
-          <Tab.Screen name = 'Records' component={Records}/>
-          <Tab.Screen name = 'Options' component={Options}/>
-        </Tab.Navigator>
-      </NavigationContainer>
-    )}
-    </AppConsumer>
-  );
+    <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen name = 'Workouts' component={StackNav}/>
+        <Tab.Screen name = 'Rest' component={Rest}/>
+        <Tab.Screen name = 'Records' component={Records}/>
+        <Tab.Screen name = 'Options' component={Options}/>
+      </Tab.Navigator>
+    </NavigationContainer>
+   );
 }
 
 function StackNav() {
     return(
-       
-      <Stack.Navigator>
+       <Stack.Navigator>
         <Stack.Screen options={{headerShown: false}} name = 'Workouts' component={Home}/>
         <Stack.Screen name = 'New Workout' component={WOScreen} 
           options={
