@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { AppConsumer } from '../context/app-context';
-import { Keyboard, StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, Button } from 'react-native';
+import { Keyboard, StyleSheet, Text, View, TextInput, Alert } from 'react-native';
 import { FAB } from 'react-native-paper';
+import { HeaderBackButton } from '@react-navigation/stack';
 import WorkoutInput from '../components/workoutInput';
 
 //a tab for letting the user make customization and contains app info
@@ -10,7 +11,16 @@ export default function WOScreen({route, navigation}) {
   const[exercises, setExercises] = useState(route.params.item.exercises);   
   const[kbOpen, setKBOpen] = useState(false);
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <HeaderBackButton onPress={() => backHandler()}/>
+      )
+    })
+  })
+
   useEffect(() => {
+    //keyboard listeners to keep the FAB out of the way 
     Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
     Keyboard.addListener("keyboardDidHide", _keyboardDidHide);
 
@@ -20,6 +30,15 @@ export default function WOScreen({route, navigation}) {
       Keyboard.removeListener("keyboardDidHide", _keyboardDidHide);
     };
   }, []);
+
+  const backHandler = () => {
+    Alert.alert("Are you sure?", "Going back will dismiss changes without saving.",
+                [{text: "OK",
+                  onPress: () => {
+                    navigation.goBack()}},
+                 {text: "Cancel",
+                  style: "cancel"}])
+  }
 
   const _keyboardDidShow = () => {
     setKBOpen(true);

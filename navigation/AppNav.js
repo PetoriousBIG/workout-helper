@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { AppConsumer } from '../context/app-context';
 import { NavigationContainer, Button } from '@react-navigation/native'
-import { createStackNavigator } from '@react-navigation/stack'
+import { createStackNavigator, HeaderBackButton } from '@react-navigation/stack'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 import Home from '../screens/home-tab.js';
@@ -41,7 +41,9 @@ function StackNav() {
       <Stack.Navigator>
         <Stack.Screen options={{headerShown: false}} name = 'Workouts' component={Home}/>
         <Stack.Screen name = 'New Workout' component={WOScreen} 
-          options={({ route }) => ({ title: route.params.item.name})}/>
+          options={
+            ({ route }) => ({ title: route.params.item.name })
+            }/>
         <Stack.Screen name = 'Do Workout' component={DoWorkoutScreen}/>
       </Stack.Navigator>
     
