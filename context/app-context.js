@@ -25,7 +25,6 @@ export class AppProvider extends React.Component {
         wos.push(wo);
         this.setState({workouts: wos})
         saveWorkouts(this.state.workouts)
-        console.log("added")
     }
 
     editWorkout = (data, key) => {
@@ -36,7 +35,6 @@ export class AppProvider extends React.Component {
         wos[woAtIndex.key] = woAtIndex
         this.setState({workouts: wos})
         saveWorkouts(this.state.workouts)
-        console.log("edited")
     }
 
     deleteWorkout = (key) => {
@@ -76,9 +74,7 @@ export class AppProvider extends React.Component {
 
     render() {
         return(
-            <AppContext.Provider value = {{colorSchemes: colorSchemes,
-                                           selectedColor: this.state.selectedColor,
-                                           workouts: this.state.workouts,
+            <AppContext.Provider value = {{workouts: this.state.workouts,
                                            records: this.state.records,
                                            addWorkout: this.addWorkout,
                                            editWorkout: this.editWorkout,
@@ -90,13 +86,3 @@ export class AppProvider extends React.Component {
         )
     }
 }
-
-const colorSchemes = {default: {
-                        bg: 'white',
-                        atColor: 'tomato',
-                        itColor: 'gray'},
-                      red: {
-                        bg: 'plum',
-                        atColor: 'crimson',
-                        itColor: 'gray'}
-                    }
