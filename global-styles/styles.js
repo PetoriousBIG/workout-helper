@@ -26,12 +26,12 @@ const globalStyles = StyleSheet.create({
       marginRight: "2.5%"
     },
     imageButton: {
-        width: 36,
-        height: 36,
+        width: 28,
+        height: 28,
         marginHorizontal: "1%"
     },
     flatlistHeader: {
-      fontSize: 28,
+      fontSize: 20,
       marginLeft: '2.5%'
     }
 })

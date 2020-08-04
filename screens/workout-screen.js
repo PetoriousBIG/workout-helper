@@ -97,7 +97,7 @@ export default function WOScreen({route, navigation}) {
         <View>
             <Text style = {styles.instructionText}>Enter a name for your workout</Text>
             <TextInput style = {styles.inputText} textAlign = 'center' value = {woName}
-                maxLength={25} onChangeText={text => setWOName(text)}/>
+                maxLength={20} onChangeText={text => setWOName(text)}/>
         </View>
 
         <View style={{marginTop: '5%'}}> 
