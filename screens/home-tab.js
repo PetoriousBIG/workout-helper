@@ -20,7 +20,7 @@ export default function Home(props) {
 
             <View style={[globalStyles.row, {borderWidth: 2.5,
                                              borderRadius: 15,
-                                             paddingVertical: 15,
+                                             paddingVertical: 12,
                                              backgroundColor: '#D3D3D3'}]}>
                           
               <Text style={globalStyles.flatlistHeader}>{item.name}</Text>
