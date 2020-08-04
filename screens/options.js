@@ -1,23 +1,16 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import { Button, View,} from 'react-native';
+import { AppConsumer } from '../context/app-context';
 
 //a tab for letting the user make customization and contains app info
 export default function Options() {
   return (
-    <View style = {styles.topView}>
-      
-          <Text>Hello World</Text>
-
-    </View>
+    <AppConsumer>
+    {(context) => (
+      <View style={{justifyContent: 'center', alignItems: "center"}}>
+        <Button title="Clear App Data" onPress={() => context.clearAllData()}/>
+      </View>
+    )}
+    </AppConsumer>
   )
 }
-
-const styles = StyleSheet.create({
-
-  topView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignContent: 'center'
-  },
-
-})

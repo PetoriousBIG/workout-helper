@@ -1,6 +1,7 @@
 import React from 'react';
 import Workout from '../model/workout';
 import Record from '../model/record';
+import {saveWorkouts, fetchWorkouts, saveRecords, fetchRecords} from '../storage/DataPersistance'
 
 export const AppContext = React.createContext();
 export const AppConsumer = AppContext.Consumer;
@@ -8,17 +9,22 @@ export const AppConsumer = AppContext.Consumer;
 export class AppProvider extends React.Component {
     constructor(props){
         super(props);
-        const dummyWorkout = new Workout('StrongLifts', '0', [{name: 'Squat', sets: 5, reps: 5},
-                        {name: 'Bench Press', sets: 5, reps: 5}, 
-                        {name: 'Barbell Row', sets: 5, reps: 5}])
-        this.state = ({selectedColor: colorSchemes.default, workouts: [dummyWorkout], records: []})
+        this.state = ({ workouts: [], records: []})
     }
+
+    async componentDidMount() {
+        const wos = await fetchWorkouts()
+        const recs = await fetchRecords()
+        this.setState({workouts: wos, records: recs})
+      }
+      
 
     addWorkout = (woName, exercises) => {
         var wos = this.state.workouts;
         const wo = new Workout(woName, (wos.length).toString(), exercises)
         wos.push(wo);
         this.setState({workouts: wos})
+        saveWorkouts(this.state.workouts)
     }
 
     editWorkout = (data, key) => {
@@ -27,7 +33,8 @@ export class AppProvider extends React.Component {
         woAtIndex.name = data.name
         woAtIndex.exercises = data.exercises
         wos[woAtIndex.key] = woAtIndex
-        this.setState({workouts: wos}) 
+        this.setState({workouts: wos})
+        saveWorkouts(this.state.workouts)
     }
 
     deleteWorkout = (key) => {
@@ -41,13 +48,14 @@ export class AppProvider extends React.Component {
             wos[i] = wo 
         }
         this.setState({workouts: wos})
+        saveWorkouts(this.state.workouts)
     }
 
     addRecord = (header, body) => {
         var records = this.state.records
         records.push(new Record(header, body, (records.length).toString()))
-        console.log(records)
         this.setState({records: records})
+        saveRecords(this.state.records)
     }
 
     deleteRecord = (key) => {
@@ -61,31 +69,27 @@ export class AppProvider extends React.Component {
             records[i] = record
         }
         this.setState({records: records})
+        saveRecords(this.state.records)
+    }
+
+    clearAllData = () => {
+        this.setState({records: [], workouts: []})
+        saveWorkouts([])
+        saveRecords([])
     }
 
     render() {
         return(
-            <AppContext.Provider value = {{colorSchemes: colorSchemes,
-                                           selectedColor: this.state.selectedColor,
-                                           workouts: this.state.workouts,
+            <AppContext.Provider value = {{workouts: this.state.workouts,
                                            records: this.state.records,
                                            addWorkout: this.addWorkout,
                                            editWorkout: this.editWorkout,
                                            deleteWorkout: this.deleteWorkout, 
                                            addRecord: this.addRecord,
-                                           deleteRecord: this.deleteRecord}}>
+                                           deleteRecord: this.deleteRecord,
+                                           clearAllData: this.clearAllData}}>
               {this.props.children}
             </AppContext.Provider>
         )
     }
 }
-
-const colorSchemes = {default: {
-                        bg: 'white',
-                        atColor: 'tomato',
-                        itColor: 'gray'},
-                      red: {
-                        bg: 'plum',
-                        atColor: 'crimson',
-                        itColor: 'gray'}
-                    }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import CountDown from 'react-native-countdown-component';
 
 //this is a tab for the top level tab navigator

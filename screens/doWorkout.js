@@ -87,7 +87,7 @@ export default class DoWorkoutScreen extends Component {
     return (
       <AppConsumer>
       {(context) => (
-        <View styles={styles.container}>
+        <View style={styles.container}>
 
           <Modal animationType = {"slide"} transparent = {false}
                 visible = {this.state.isModalVisible}>
@@ -129,30 +129,27 @@ export default class DoWorkoutScreen extends Component {
             </View>
             </Modal>
           
-
-          <FlatList data={this.state.workoutResults}
-                    keyExtractor={(item, index) => item.key}
-                    renderItem={({ item, index }) => (
-                        <TouchableOpacity onPress={() => {
-                          this.setState({modalIsEditing: index})
-                          this.setState({isModalVisible: true})
-                        }}>
-                            <View style = {[styles.flatList, 
-                              item.completedReps >= item.goalReps ? {backgroundColor: '#5EFCAD'} : {backgroundColor: '#FF7394'}]}>
-                                <Text style = {styles.text}>{item.exercise}: {item.completedReps}/{item.goalReps} @ {item.weight}</Text>
-                            </View>
-                        </TouchableOpacity>
-                    )}>
-            
-          </FlatList>
-
-          <FAB style={styles.fab} large icon="plus"
-                onPress={() => {
-                  const header = this.createHeader()
-                  const body = this.createBody()
-                  context.addRecord(header, body)
-                  this.props.navigation.goBack()
-                }}/>
+          
+            <FlatList data={this.state.workoutResults}
+                      keyExtractor={(item, index) => item.key}
+                      renderItem={({ item, index }) => (
+                          <TouchableOpacity onPress={() => {
+                            this.setState({modalIsEditing: index})
+                            this.setState({isModalVisible: true})}}>
+                              
+                              <View style = {[styles.flatList, 
+                                item.completedReps >= item.goalReps ? {backgroundColor: '#5EFCAD'} : {backgroundColor: '#FF7394'}]}>
+                                  <Text style = {styles.text}>{item.exercise}: {item.completedReps}/{item.goalReps} @ {item.weight}</Text>
+                              </View>
+                          </TouchableOpacity>)}/>
+              
+            <FAB style={styles.fab} large icon="plus"
+                  onPress={() => {
+                    const header = this.createHeader()
+                    const body = this.createBody()
+                    context.addRecord(header, body)
+                    this.props.navigation.goBack()
+                  }}/>
         </View>)}
       </AppConsumer>
     )
@@ -163,10 +160,7 @@ const styles = StyleSheet.create({
   container : {
     flex: 1,
     justifyContent: "flex-start",
-    marginLeft: '5%',
-    marginTop: '5%',
-    marginRight: '5%',
-    marginBottom: '5%'
+
   },
   flatList: {
       padding: 15,

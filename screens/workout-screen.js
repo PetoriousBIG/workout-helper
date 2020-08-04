@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { AppConsumer } from '../context/app-context';
-import { Keyboard, StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, Button } from 'react-native';
+import { Keyboard, StyleSheet, Text, View, TextInput, Alert, BackHandler } from 'react-native';
 import { FAB } from 'react-native-paper';
+import { HeaderBackButton } from '@react-navigation/stack';
 import WorkoutInput from '../components/workoutInput';
 
 //a tab for letting the user make customization and contains app info
@@ -10,16 +11,42 @@ export default function WOScreen({route, navigation}) {
   const[exercises, setExercises] = useState(route.params.item.exercises);   
   const[kbOpen, setKBOpen] = useState(false);
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <HeaderBackButton onPress={() => backHandler()}/>
+      )
+    })
+  })
+
   useEffect(() => {
+    //keyboard listeners to keep the FAB out of the way 
     Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
     Keyboard.addListener("keyboardDidHide", _keyboardDidHide);
+
+
+    const androirdHWBackButton = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backHandler)
 
     // cleanup function
     return () => {
       Keyboard.removeListener("keyboardDidShow", _keyboardDidShow);
       Keyboard.removeListener("keyboardDidHide", _keyboardDidHide);
+      androirdHWBackButton.remove()
     };
   }, []);
+
+  const backHandler = () => {
+    Alert.alert("Are you sure?", "Going back will dismiss changes without saving.",
+                [{text: "OK",
+                  onPress: () => {
+                    navigation.goBack()}},
+                 {text: "Cancel",
+                  style: "cancel"}])
+    //return true is needed to suppress the back action for the Android Hardware back button
+    return true
+  }
 
   const _keyboardDidShow = () => {
     setKBOpen(true);
@@ -29,14 +56,33 @@ export default function WOScreen({route, navigation}) {
     setKBOpen(false);
   };
 
-  const checkNames = (name, exercises) => {
-    if (name.length < 1){
+  const checkInputs = () => {
+    const areNamesValid = checkNames()
+    const areSetsAndRepsValid = checkSetsAndReps()
+    return areNamesValid && areSetsAndRepsValid
+  }
+
+  const checkNames = () => {
+    if (woName.length < 1 || exercises.length == 0){
       return false
     }
 
     var i;
     for (i = 0; i < exercises.length; i++){
-      if(exercises[i].length < 1){
+      if(exercises[i].name.length < 1){
+        return false
+      }
+    }
+    return true
+  }
+
+  const checkSetsAndReps = () => {
+    if (exercises.length == 0){
+      return false
+    }
+    var i;
+    for (i = 0; i < exercises.length; i++){
+      if(exercises[i].sets == '' || exercises[i].reps == ''){
         return false
       }
     }
@@ -51,7 +97,7 @@ export default function WOScreen({route, navigation}) {
         <View>
             <Text style = {styles.instructionText}>Enter a name for your workout</Text>
             <TextInput style = {styles.inputText} textAlign = 'center' value = {woName}
-                maxLength={25} onChangeText={text => setWOName(text)}/>
+                maxLength={20} onChangeText={text => setWOName(text)}/>
         </View>
 
         <View style={{marginTop: '5%'}}> 
@@ -66,10 +112,9 @@ export default function WOScreen({route, navigation}) {
         <FAB style={styles.fab} visible = {!kbOpen} large icon="check" color="green"
               onPress={() => {
 
-                var allNamesValid = checkNames(woName, exercises)
-                var checkNums
+                const isValidWorkout = checkInputs()
 
-                if(allNamesValid){
+                if(isValidWorkout){
                   if(route.params.isNew){
                    context.addWorkout(woName, exercises)
                   }
@@ -82,7 +127,8 @@ export default function WOScreen({route, navigation}) {
                 }
 
                 else{
-                  alert('Invalid input: Please supply a name to workout and all exercises.')
+                  alert('Invalid input: Please supply a Name to Workout and all exercises. ' +
+                  'Additionally please make sure all Sets and Reps fields have values.')
                 }
                 
                 }}/>
