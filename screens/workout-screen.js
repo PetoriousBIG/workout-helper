@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { AppConsumer } from '../context/app-context';
-import { Keyboard, StyleSheet, Text, View, TextInput, Alert } from 'react-native';
+import { Keyboard, StyleSheet, Text, View, TextInput, Alert, BackHandler } from 'react-native';
 import { FAB } from 'react-native-paper';
 import { HeaderBackButton } from '@react-navigation/stack';
 import WorkoutInput from '../components/workoutInput';
@@ -24,10 +24,16 @@ export default function WOScreen({route, navigation}) {
     Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
     Keyboard.addListener("keyboardDidHide", _keyboardDidHide);
 
+
+    const androirdHWBackButton = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backHandler)
+
     // cleanup function
     return () => {
       Keyboard.removeListener("keyboardDidShow", _keyboardDidShow);
       Keyboard.removeListener("keyboardDidHide", _keyboardDidHide);
+      androirdHWBackButton.remove()
     };
   }, []);
 
@@ -38,6 +44,8 @@ export default function WOScreen({route, navigation}) {
                     navigation.goBack()}},
                  {text: "Cancel",
                   style: "cancel"}])
+    //return true is needed to suppress the back action for the Android Hardware back button
+    return true
   }
 
   const _keyboardDidShow = () => {
