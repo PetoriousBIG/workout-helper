@@ -29,7 +29,6 @@ export default function Home(props) {
                   <TouchableOpacity onPress={ () => {
                     
                     const itemDeepCopy = JSON.parse(JSON.stringify(item))
-                    console.log(itemDeepCopy)
                     navigation.navigate('New Workout', {item: itemDeepCopy, isNew: false})}}>
                     
                     <View>

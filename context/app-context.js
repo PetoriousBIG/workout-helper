@@ -74,8 +74,8 @@ export class AppProvider extends React.Component {
 
     clearAllData = () => {
         this.setState({records: [], workouts: []})
-        saveWorkouts(this.state.workouts)
-        saveRecords(this.state.records)
+        saveWorkouts([])
+        saveRecords([])
     }
 
     render() {
