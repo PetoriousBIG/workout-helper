@@ -10,10 +10,13 @@ Created in React Native to be used on the Android Platform
 - ~Implement screen reset and dismissal of changes notice when exiting add/edit screen without setting (IMPORTANT)~
 - ~Make the Workout list screen look cleaner (IMPORTANT)~
 - Implement saving workout progress/clearing workout progress (IMPORTANT)
+
 - Implement automatic versioning (IMPORTANT)
 - Refactor styles, implement some global styles
-    - Add different colors user can choose from
+    - Add different color schemes user can choose from
+
 - Let user switch between lbs and kg
+- Implement tutorial script
 
 - Put on the Play Store after all the tasks marked important are completed
 
