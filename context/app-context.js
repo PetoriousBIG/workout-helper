@@ -19,13 +19,17 @@ export class AppProvider extends React.Component {
         const recs = await fetchRecords()
         const woip = await fetchWorkoutInProgress()
         this.setState({workouts: wos, records: recs, workoutInProgress: woip[0], workoutIndex: woip[1]})
-        console.log(woip)
       }
     
     saveWorkoutInProgress = (resultsToSave, indexOfWorkout) => {
         this.setState({workoutInProgress: resultsToSave, workoutIndex: indexOfWorkout})
         saveWorkoutInProgress(resultsToSave, indexOfWorkout)
 
+    }
+
+    deleteWorkoutInProgress = () => {
+        this.setState({workoutInProgress: [], workoutIndex: -1})
+        saveWorkoutInProgress([], -1)
     }
 
     addWorkout = (woName, exercises) => {
@@ -92,14 +96,15 @@ export class AppProvider extends React.Component {
             <AppContext.Provider value = {{workouts: this.state.workouts,
                                            records: this.state.records,
                                            workoutInProgress: this.state.workoutInProgress,
-                                           indexOfWorkout: this.state.indexOfWorkout,
+                                           workoutIndex: this.state.workoutIndex,
                                            addWorkout: this.addWorkout,
                                            editWorkout: this.editWorkout,
                                            deleteWorkout: this.deleteWorkout, 
                                            addRecord: this.addRecord,
                                            deleteRecord: this.deleteRecord,
                                            clearAllData: this.clearAllData,
-                                           saveWorkoutInProgress: this.saveWorkoutInProgress}}>
+                                           saveWorkoutInProgress: this.saveWorkoutInProgress,
+                                           deleteWorkoutInProgress: this.deleteWorkoutInProgress}}>
               {this.props.children}
             </AppContext.Provider>
         )

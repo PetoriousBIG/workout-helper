@@ -30,7 +30,6 @@ export const fetchRecords = async () => {
 
 export const saveWorkoutInProgress = (results, index) => {
     const obj = {results: results, index: index}
-    console.log(obj)
     AsyncStorage.setItem("InProgress", JSON.stringify(obj))
 }
 

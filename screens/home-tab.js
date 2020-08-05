@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, FlatList, TouchableOpacity, Image } from 'react-native';
+import { Text, View, FlatList, TouchableOpacity, Image, Alert } from 'react-native';
 import Workout from '../model/workout.js';
 import { AppConsumer } from '../context/app-context';
 import { FAB } from 'react-native-paper';
@@ -16,7 +16,22 @@ export default function Home(props) {
         <FlatList data={context.workouts} style={globalStyles.flatlist}
                   renderItem={({ item, index }) => (
                       
-          <TouchableOpacity onPress={() => { navigation.navigate('Do Workout', {item, index, context}) }}>
+          <TouchableOpacity onPress={() => {
+            if (context.workoutIndex == -1){
+              navigation.navigate('Do Workout', {item, index, context})
+            }
+            else if (index != context.workoutIndex){
+              Alert.alert("Start New Workout?", "You have progress from a different workout saved. Would you like to " +
+              "erase previous progress and start a new workout?", 
+              [ {text: "CANCEL",
+                 style: "cancel"},
+                {text: "OK",
+                onPress: () => {
+                  context.deleteWorkoutInProgress()
+                  navigation.navigate('Do Workout', {item, index, context})
+                }}])
+            }
+            }}>
 
             <View style={[globalStyles.row, {borderWidth: 2.5,
                                              borderRadius: 15,
