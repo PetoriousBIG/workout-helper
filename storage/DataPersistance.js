@@ -27,3 +27,19 @@ export const fetchRecords = async () => {
         console.log('Error fetching Workout List', error);
     }
 }
+
+export const saveWorkoutInProgress = (results, index) => {
+    const obj = {results: results, index: index}
+    console.log(obj)
+    AsyncStorage.setItem("InProgress", JSON.stringify(obj))
+}
+
+export const fetchWorkoutInProgress = async () => {
+    try {
+        let obj = JSON.parse(await AsyncStorage.getItem("InProgress"))
+        if (obj === null) {return []; }
+        return [obj.results, obj.index]
+    } catch (error) {
+        console.log('Error fetching Workout In Progress', error)
+    }
+}

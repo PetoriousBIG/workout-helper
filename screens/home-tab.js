@@ -16,7 +16,7 @@ export default function Home(props) {
         <FlatList data={context.workouts} style={globalStyles.flatlist}
                   renderItem={({ item, index }) => (
                       
-          <TouchableOpacity onPress={() => { navigation.navigate('Do Workout', {item}) }}>
+          <TouchableOpacity onPress={() => { navigation.navigate('Do Workout', {item, index, context}) }}>
 
             <View style={[globalStyles.row, {borderWidth: 2.5,
                                              borderRadius: 15,

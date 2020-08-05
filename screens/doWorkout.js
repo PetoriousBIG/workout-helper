@@ -16,6 +16,7 @@ export default class DoWorkoutScreen extends Component {
   }
 
   componentDidMount() {
+
     this.backHandler = BackHandler.addEventListener(
       "hardwareBackPress",
       this.backAction
@@ -33,17 +34,16 @@ export default class DoWorkoutScreen extends Component {
 
   backAction = () => {
     Alert.alert("Are you sure?", "Would you like to save your workout progress before quitting?", [
-      {
-        text: "Cancel",
+      { text: "Cancel",
         onPress: () => null,
-        style: "cancel"
-      },
-      {
-        text: "Quit",
-        onPress: () => {this.props.navigation.goBack()}
-
-      },
-      { text: "Save & Quit", onPress: () => this.props.navigation.goBack() }
+        style: "cancel"},
+      
+      { text: "Quit",
+        onPress: () => {this.props.navigation.goBack()}},
+      
+      { text: "Save & Quit", onPress: () => {
+        this.props.route.params.context.saveWorkoutInProgress(this.state.workoutResults, this.props.route.params.index)
+        this.props.navigation.goBack() }}
     ]);
     return true;
   };

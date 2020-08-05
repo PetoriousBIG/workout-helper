@@ -1,7 +1,9 @@
 import React from 'react';
 import Workout from '../model/workout';
 import Record from '../model/record';
-import {saveWorkouts, fetchWorkouts, saveRecords, fetchRecords} from '../storage/DataPersistance'
+import {saveWorkouts, fetchWorkouts, 
+        saveRecords, fetchRecords, 
+        saveWorkoutInProgress, fetchWorkoutInProgress} from '../storage/DataPersistance'
 
 export const AppContext = React.createContext();
 export const AppConsumer = AppContext.Consumer;
@@ -9,15 +11,22 @@ export const AppConsumer = AppContext.Consumer;
 export class AppProvider extends React.Component {
     constructor(props){
         super(props);
-        this.state = ({ workouts: [], records: []})
+        this.state = ({ workouts: [], records: [], workoutInProgress: [], workoutIndex: -1})
     }
 
     async componentDidMount() {
         const wos = await fetchWorkouts()
         const recs = await fetchRecords()
-        this.setState({workouts: wos, records: recs})
+        const woip = await fetchWorkoutInProgress()
+        this.setState({workouts: wos, records: recs, workoutInProgress: woip[0], workoutIndex: woip[1]})
+        console.log(woip)
       }
-      
+    
+    saveWorkoutInProgress = (resultsToSave, indexOfWorkout) => {
+        this.setState({workoutInProgress: resultsToSave, workoutIndex: indexOfWorkout})
+        saveWorkoutInProgress(resultsToSave, indexOfWorkout)
+
+    }
 
     addWorkout = (woName, exercises) => {
         var wos = this.state.workouts;
@@ -82,12 +91,15 @@ export class AppProvider extends React.Component {
         return(
             <AppContext.Provider value = {{workouts: this.state.workouts,
                                            records: this.state.records,
+                                           workoutInProgress: this.state.workoutInProgress,
+                                           indexOfWorkout: this.state.indexOfWorkout,
                                            addWorkout: this.addWorkout,
                                            editWorkout: this.editWorkout,
                                            deleteWorkout: this.deleteWorkout, 
                                            addRecord: this.addRecord,
                                            deleteRecord: this.deleteRecord,
-                                           clearAllData: this.clearAllData}}>
+                                           clearAllData: this.clearAllData,
+                                           saveWorkoutInProgress: this.saveWorkoutInProgress}}>
               {this.props.children}
             </AppContext.Provider>
         )
