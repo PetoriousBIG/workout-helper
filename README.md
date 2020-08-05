@@ -10,7 +10,7 @@ Created in React Native to be used on the Android Platform
 - ~Implement screen reset and dismissal of changes notice when exiting add/edit screen without setting (IMPORTANT)~
 - ~Make the Workout list screen look cleaner (IMPORTANT)~
 - Implement saving workout progress/clearing workout progress (IMPORTANT)
-
+- Clean up and abstract the modal in the do workout screen (IMPORTANT)
 - Implement automatic versioning (IMPORTANT)
 - Refactor styles, implement some global styles
     - Add different color schemes user can choose from

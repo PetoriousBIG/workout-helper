@@ -4,11 +4,32 @@ import Workout from '../model/workout.js';
 import { AppConsumer } from '../context/app-context';
 import { FAB } from 'react-native-paper';
 import globalStyles from '../global-styles/styles'
+import Set from '../model/set'
 
 //the workout list screen. this is the fist tab used in 
 //top level tab navigator. this is the "Home" screen
 export default function Home(props) {
   const { navigation } = props
+
+  const buildEmptyWorkout = (input) =>{
+    const wo = input
+    var sets = []
+    var i
+    for(i = 0; i < wo.length; i++){
+      const nextExercise = wo[i]
+      const numSets = nextExercise.sets
+      const goalReps = nextExercise.reps
+      var thisExerciseSets = []
+      var j 
+      for(j = 0; j < numSets; j++){
+          thisExerciseSets.push(new Set(nextExercise.name, goalReps, 0, ''))
+      }
+      console.log(thisExerciseSets)
+      sets = sets.concat(thisExerciseSets)
+    }
+    return sets
+  }
+
   return (
     <AppConsumer>
     {(context) => (
@@ -17,8 +38,10 @@ export default function Home(props) {
                   renderItem={({ item, index }) => (
                       
           <TouchableOpacity onPress={() => {
+            console.log(context.workoutIndex)
             if (context.workoutIndex == -1){
-              navigation.navigate('Do Workout', {item, index, context})
+              const emptyWorkout = buildEmptyWorkout(item.exercises)
+              navigation.navigate('Do Workout', {workout: emptyWorkout, index, context})
             }
             else if (index != context.workoutIndex){
               Alert.alert("Start New Workout?", "You have progress from a different workout saved. Would you like to " +
@@ -28,8 +51,27 @@ export default function Home(props) {
                 {text: "OK",
                 onPress: () => {
                   context.deleteWorkoutInProgress()
-                  navigation.navigate('Do Workout', {item, index, context})
+                  const emptyWorkout = buildEmptyWorkout(item.exercises)
+                  navigation.navigate('Do Workout', {workout: emptyWorkout, index, context})
                 }}])
+            }
+            else {
+              Alert.alert("Continue?", "You already have progress from this workout saved. Would you like " + 
+              "continue where you left off?",
+              [{text: "CANCEL",
+               style: "cancel"},
+               {text: "START OVER",
+                onPress: () => {
+                context.deleteWorkoutInProgress()
+                const emptyWorkout = buildEmptyWorkout(item.exercises)
+                navigation.navigate('Do Workout', {workout: emptyWorkout, index, context})
+               }},
+               {text: "CONTINUE",
+                onPress: () => {
+                  const inProgressWorkout = context.workoutInProgress
+                  navigation.navigate('Do Workout', {workout: inProgressWorkout, index, context})
+                }}])
+
             }
             }}>
 

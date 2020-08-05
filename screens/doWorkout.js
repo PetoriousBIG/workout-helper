@@ -2,8 +2,6 @@ import React, {Component} from 'react';
 import { StyleSheet, Text, View, FlatList, Modal, TouchableOpacity, TextInput, Alert, BackHandler} from 'react-native';
 import { AppConsumer } from '../context/app-context';
 
-import Set from '../model/set.js';
-import Record from '../model/record.js';
 import { FAB } from 'react-native-paper';
 import { HeaderBackButton } from '@react-navigation/stack';
 
@@ -11,7 +9,7 @@ import { HeaderBackButton } from '@react-navigation/stack';
 export default class DoWorkoutScreen extends Component {
   constructor(props){
     super()
-    var results = this.getInitialVals(props.route.params.item.exercises)
+    var results = props.route.params.workout
     this.state = {modalIsEditing: -1, isModalVisible: false, modalReps: '', modealWeight: '', workoutResults: results}
   }
 
@@ -47,26 +45,6 @@ export default class DoWorkoutScreen extends Component {
     ]);
     return true;
   };
-  
-
-  getInitialVals = (input) =>{
-    const wo = input
-    var sets = []
-    var i
-    for(i = 0; i < wo.length; i++){
-      const nextExercise = wo[i]
-      const numSets = nextExercise.sets
-      const goalReps = nextExercise.reps
-      var thisExerciseSets = []
-      var j 
-      for(j = 0; j < numSets; j++){
-          thisExerciseSets.push(new Set(nextExercise.name, goalReps, 0, ''))
-      }
-      sets = sets.concat(thisExerciseSets)
-    }
-    return sets
-  }
-
 
   cleanNum = (e) => {
     var inputAsNum = Math.floor(Number(e.nativeEvent.text))
