@@ -1,7 +1,6 @@
 import * as React from 'react'
-import { AppConsumer } from '../context/app-context';
-import { NavigationContainer, Button } from '@react-navigation/native'
-import { createStackNavigator, HeaderBackButton } from '@react-navigation/stack'
+import { NavigationContainer } from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 import Home from '../screens/home-tab.js';

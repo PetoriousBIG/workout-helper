@@ -1,6 +1,6 @@
 import React from 'react';
-import { AppProvider } from './context/app-context';
-import TopLevelTabsNav from './navigation/AppNav.js';
+import { AppProvider } from './src/context/app-context';
+import TopLevelTabsNav from './src/navigation/AppNav.js';
 
 //Entry point for the application, which calls a 
 //custom navigation component which renders the entry screen
