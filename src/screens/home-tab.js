@@ -37,10 +37,9 @@ export default function Home(props) {
                   renderItem={({ item, index }) => (
                       
           <TouchableOpacity onPress={() => {
-            console.log(context.workoutIndex)
             if (context.workoutIndex == -1){
               const emptyWorkout = buildEmptyWorkout(item.exercises)
-              navigation.navigate('Do Workout', {workout: emptyWorkout, index, context})
+              navigation.navigate('Do Workout', {workout: emptyWorkout, name: item.name, index, context})
             }
             else if (index != context.workoutIndex){
               Alert.alert("Start New Workout?", "You have progress from a different workout saved. Would you like to " +
@@ -51,7 +50,7 @@ export default function Home(props) {
                 onPress: () => {
                   context.deleteWorkoutInProgress()
                   const emptyWorkout = buildEmptyWorkout(item.exercises)
-                  navigation.navigate('Do Workout', {workout: emptyWorkout, index, context})
+                  navigation.navigate('Do Workout', {workout: emptyWorkout, name: item.name, index, context})
                 }}])
             }
             else {
@@ -63,12 +62,12 @@ export default function Home(props) {
                 onPress: () => {
                 context.deleteWorkoutInProgress()
                 const emptyWorkout = buildEmptyWorkout(item.exercises)
-                navigation.navigate('Do Workout', {workout: emptyWorkout, index, context})
+                navigation.navigate('Do Workout', {workout: emptyWorkout, name: item.name, index, context})
                }},
                {text: "CONTINUE",
                 onPress: () => {
                   const inProgressWorkout = context.workoutInProgress
-                  navigation.navigate('Do Workout', {workout: inProgressWorkout, index, context})
+                  navigation.navigate('Do Workout', {workout: inProgressWorkout, name: item.name, index, context})
                 }}])
 
             }

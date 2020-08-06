@@ -5,12 +5,17 @@ import { AppConsumer } from '../context/app-context';
 import { FAB } from 'react-native-paper';
 import { HeaderBackButton } from '@react-navigation/stack';
 
+import InputModal from '../components/modal'
+import { TapGestureHandler } from 'react-native-gesture-handler';
+import globalStyles from '../global-styles/styles';
+
 //screen for user to store results of in progress workout instance
 export default class DoWorkoutScreen extends Component {
   constructor(props){
     super()
+    console.log(props.route.params)
     var results = props.route.params.workout
-    this.state = {modalIsEditing: -1, isModalVisible: false, modalReps: '', modealWeight: '', workoutResults: results}
+    this.state = {modalIsEditing: -1, isModalVisible: false, modalReps: '', modalWeight: '', workoutResults: results}
   }
 
   componentDidMount() {
@@ -46,7 +51,16 @@ export default class DoWorkoutScreen extends Component {
     return true;
   };
 
+  updateModalWeight = (val) => {
+    this.setState({modalWeight: val})
+  }
+
+  updateModalReps = (val) => {
+    this.setState({modalReps: val})
+  }
+
   cleanNum = (e) => {
+    
     var inputAsNum = Math.floor(Number(e.nativeEvent.text))
     if (inputAsNum < 1){
       const one = 1
@@ -59,7 +73,8 @@ export default class DoWorkoutScreen extends Component {
     return inputAsNum.toString()
   }
 
-  setExerciseResults = (setNum, reps, weight) => {
+  setExerciseResults = (reps, weight) => {
+    const setNum = this.state.modalIsEditing
     var woResultsCopy = this.state.workoutResults
     var set = woResultsCopy[setNum]
     set.completedReps = reps
@@ -84,7 +99,7 @@ export default class DoWorkoutScreen extends Component {
   }
 
   createHeader = () => {
-    const name = this.props.route.params.item.name
+    const name = this.props.route.params.name
     const now = new Date()
     const nowString = now.getUTCMonth() + "/" + now.getUTCDate() + "/" + now.getUTCFullYear()
     return name + " " + nowString
@@ -101,45 +116,9 @@ export default class DoWorkoutScreen extends Component {
       {(context) => (
         <View style={styles.container}>
 
-          <Modal animationType = {"slide"} transparent = {false}
-                visible = {this.state.isModalVisible}>
-                  
-            <View style = {styles.modal}>
-              <Text style = {styles.text}>Set weight and reps:</Text>
-                <View style={styles.row}>
-                  <Text style={styles.text}>Weight: </Text>
-                  <TextInput style={styles.numText} value = {this.state.modalWeight} maxLength={4} placeholder='lbs'
-                    keyboardType={'numeric'} onChangeText={(text) => this.setState({modalWeight: text})}
-                    onEndEditing={(event) => {
-                      const cleanInput = this.cleanNum(event)
-                      this.setState({modalWeight: cleanInput})}}/>
-                </View>
-                <View style={styles.row}>
-                  <Text style={styles.text}>Reps: </Text>
-                  <TextInput style={styles.numText} value = {this.state.modalReps} maxLength={4} placeholder='Reps'
-                    keyboardType={'numeric'} onChangeText={(text) => this.setState({modalReps: text})}
-                    onEndEditing={(event) => {
-                      const cleanInput = this.cleanNum(event)
-                      this.setState({modalReps: cleanInput})}}/>
-                </View>
-              <View style={styles.row}>
-                <TouchableOpacity onPress = {() => {
-                  this.saveChanges()}}>
-                  <View style={{marginRight: '5%'}}>  
-                    <Text style = {styles.text}>Save</Text>
-                  </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress = {() => {
-                  this.dismissModal()}}>
-                  <View styles={{marginLeft: '5%'}}>  
-                    <Text style = {styles.text}>Dismiss</Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
-                      
-            </View>
-            </Modal>
+            <InputModal isVisible={this.state.isModalVisible} viewReps = {this.state.modalReps} viewWeight = {this.state.modalWeight}
+                        dismiss = {() => this.dismissModal()} cleanNum = {(e) => this.cleanNum(e)} updateMW = {(val) => this.updateModalWeight(val)}
+                        updateReps = {(val) => this.updateModalReps(val)} saveResults = {(r, w) => this.setExerciseResults(r, w)}/>
           
           
             <FlatList data={this.state.workoutResults}
@@ -155,7 +134,7 @@ export default class DoWorkoutScreen extends Component {
                               </View>
                           </TouchableOpacity>)}/>
               
-            <FAB style={styles.fab} large icon="plus"
+            <FAB style={globalStyles.fab} large icon="plus"
                   onPress={() => {
                     const header = this.createHeader()
                     const body = this.createBody()
@@ -181,27 +160,7 @@ const styles = StyleSheet.create({
   text: {
       fontSize: 25
   },
-  modal: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 50,
-  },
   row: {
    flexDirection : 'row',
   },
-  numText: {
-    fontSize: 25,
-    borderBottomWidth: 1,
-    textAlign: 'center',
-    width: 15,
-    marginLeft: '10%' },
-  fab: {
-    position: 'absolute',
-    margin: 16,
-    right: 0,
-    bottom: 0,
-    borderColor: 'black',
-    borderWidth: 1,
-  }
 })

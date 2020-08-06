@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native'
 const globalStyles = StyleSheet.create({
     topContainer: {
       flex: 1,
-      flexDirection: "row",
+      
       justifyContent: "flex-start",
     },
     fab: {
@@ -33,7 +33,13 @@ const globalStyles = StyleSheet.create({
     flatlistHeader: {
       fontSize: 20,
       marginLeft: '2.5%'
-    }
+    },
+    numberInput: {
+      fontSize: 20,
+      borderBottomWidth: 1,
+      textAlign: 'center',
+      width: 60,
+      },
 })
 
 export default globalStyles

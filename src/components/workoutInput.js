@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, FlatList, TextInput, Button, TouchableOpacity, Image } from 'react-native';
+import { View, StyleSheet, FlatList, TextInput, Button, TouchableOpacity, Image } from 'react-native';
+
+import globalStyles from '../global-styles/styles'
 
 export default class WorkoutInput extends Component {
     constructor(props){
@@ -66,13 +68,13 @@ export default class WorkoutInput extends Component {
                 <View style = {{flexDirection: 'row', padding: 5, justifyContent: 'flex-start'}}>
                   <TextInput style={styles.nameText} value={item.name} maxLength={25} placeholder='Exercise'
                     onChangeText={(text) => this.handleChange(0, text, index)}/>
-                  <TextInput style={styles.numText} value = {item.sets.toString()} maxLength={4} placeholder='Sets'
+                  <TextInput style={[globalStyles.numberInput, {width: 15, marginLeft: '10%'}]} value = {item.sets.toString()} maxLength={4} placeholder='Sets'
                     keyboardType={'numeric'} onChangeText={(text) => this.handleChange(1, text, index)}
                     onEndEditing={(event) => {
                       const cleanInput = this.cleanNum(event)
                       this.handleChange(1, cleanInput, index)
                     }}/> 
-                  <TextInput style={styles.numText} value = {item.reps.toString()} maxLength={4} placeholder='Reps'
+                  <TextInput style={[globalStyles.numberInput, {width: 15, marginLeft: '10%'}]} value = {item.reps.toString()} maxLength={4} placeholder='Reps'
                     keyboardType={'numeric'} onChangeText={(text) => this.handleChange(2, text, index)}
                     onEndEditing={(event) => {
                       const cleanInput = this.cleanNum(event)
