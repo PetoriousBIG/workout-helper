@@ -115,15 +115,32 @@ export default function WOScreen({route, navigation}) {
                 const isValidWorkout = checkInputs()
 
                 if(isValidWorkout){
+                  
                   if(route.params.isNew){
                    context.addWorkout(woName, exercises)
+                   navigation.goBack()
                   }
                 
                   else{
+
+                    if (context.workoutIndex == parseInt(route.params.item.key)){
+                      Alert.alert("Alert", "This workout has a saved session. " +
+                                  "If you confirm the edit, it will be deleted.",
+                                  [{text: "cancel",
+                                    style: "cancel"},
+                                    {text: "Continue",
+                                    onPress: () => {
+                                      context.deleteWorkoutInProgress()
+                                      context.editWorkout({name: woName, exercises: exercises}, route.params.item.key)
+                                      navigation.goBack()
+                                    }}])
+                    }
+                    else { 
                     context.editWorkout({name: woName, exercises: exercises}, route.params.item.key)
+                    navigation.goBack()}
                   }
                 
-                  navigation.goBack()
+                  
                 }
 
                 else{

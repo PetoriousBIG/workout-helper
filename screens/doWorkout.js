@@ -1,38 +1,50 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, FlatList, Modal, TouchableOpacity, TextInput} from 'react-native';
+import { StyleSheet, Text, View, FlatList, Modal, TouchableOpacity, TextInput, Alert, BackHandler} from 'react-native';
 import { AppConsumer } from '../context/app-context';
 
-import Set from '../model/set.js';
-import Record from '../model/record.js';
 import { FAB } from 'react-native-paper';
+import { HeaderBackButton } from '@react-navigation/stack';
 
 //screen for user to store results of in progress workout instance
 export default class DoWorkoutScreen extends Component {
   constructor(props){
     super()
-    var results = this.getInitialVals(props.route.params.item.exercises)
+    var results = props.route.params.workout
     this.state = {modalIsEditing: -1, isModalVisible: false, modalReps: '', modealWeight: '', workoutResults: results}
   }
-  
 
-  getInitialVals = (input) =>{
-    const wo = input
-    var sets = []
-    var i
-    for(i = 0; i < wo.length; i++){
-      const nextExercise = wo[i]
-      const numSets = nextExercise.sets
-      const goalReps = nextExercise.reps
-      var thisExerciseSets = []
-      var j 
-      for(j = 0; j < numSets; j++){
-          thisExerciseSets.push(new Set(nextExercise.name, goalReps, 0, ''))
-      }
-      sets = sets.concat(thisExerciseSets)
-    }
-    return sets
+  componentDidMount() {
+
+    this.backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      this.backAction
+    );
+    this.props.navigation.setOptions({
+        headerLeft: () => (
+          <HeaderBackButton onPress={() => this.backAction()}/>
+        )
+      })
   }
 
+  componentWillUnmount() {
+    this.backHandler.remove();
+  }
+
+  backAction = () => {
+    Alert.alert("Are you sure?", "Would you like to save your workout progress before quitting?", [
+      { text: "Cancel",
+        onPress: () => null,
+        style: "cancel"},
+      
+      { text: "Quit",
+        onPress: () => {this.props.navigation.goBack()}},
+      
+      { text: "Save & Quit", onPress: () => {
+        this.props.route.params.context.saveWorkoutInProgress(this.state.workoutResults, this.props.route.params.index)
+        this.props.navigation.goBack() }}
+    ]);
+    return true;
+  };
 
   cleanNum = (e) => {
     var inputAsNum = Math.floor(Number(e.nativeEvent.text))
