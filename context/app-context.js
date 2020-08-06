@@ -62,6 +62,13 @@ export class AppProvider extends React.Component {
         }
         this.setState({workouts: wos})
         saveWorkouts(this.state.workouts)
+        
+        if (keyInt < this.state.workoutIndex) {
+            const newIndex = this.state.workoutIndex - 1
+            console.log(typeof(newIndex))
+            this.setState({workoutIndex: newIndex})
+            saveWorkoutInProgress(this.workoutInProgress, newIndex)
+        }
     }
 
     addRecord = (header, body) => {
@@ -86,9 +93,10 @@ export class AppProvider extends React.Component {
     }
 
     clearAllData = () => {
-        this.setState({records: [], workouts: []})
+        this.setState({records: [], workouts: [], workoutInProgress: [], workoutIndex: -1})
         saveWorkouts([])
         saveRecords([])
+        saveWorkoutInProgress([], -1)
     }
 
     render() {

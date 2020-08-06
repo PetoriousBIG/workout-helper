@@ -24,7 +24,6 @@ export default function Home(props) {
       for(j = 0; j < numSets; j++){
           thisExerciseSets.push(new Set(nextExercise.name, goalReps, 0, ''))
       }
-      console.log(thisExerciseSets)
       sets = sets.concat(thisExerciseSets)
     }
     return sets
@@ -92,7 +91,23 @@ export default function Home(props) {
                       <Image style={globalStyles.imageButton} source={require('../assets/edit.png')}/>
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => context.deleteWorkout(item.key)}>
+                  
+                  <TouchableOpacity onPress={() => {
+                    if(index == context.workoutIndex){
+                      Alert.alert("Are You Sure?", "You still have a workout of this type saved. If you continue, " +
+                                  "it will be deleted. Is that okay?",
+                                  [{text: "CANCEL",
+                                    style: "cancel"},
+                                   {text: "CONTINUE",
+                                    onPress: () => {
+                                      context.deleteWorkoutInProgress()
+                                      context.deleteWorkout(item.key)
+                                    }}])}
+                    else{
+                      context.deleteWorkout(item.key)
+                    }
+                    }}>
+
                     <View>
                       <Image style={globalStyles.imageButton} source={require('../assets/delete.png')}/>
                     </View>
