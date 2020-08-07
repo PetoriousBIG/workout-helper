@@ -35,21 +35,21 @@ export default function InputModal(props){
                 
                 </View>
 
-                <View style={globalStyles.row}>
+                <View style={[globalStyles.row, {justifyContent: "space-around"}]}>
 
                   <TouchableOpacity onPress={() => {
                       props.saveResults(props.viewReps, props.viewWeight)     
                       props.dismiss()}}>
                     
                     <View>
-                      <Text>Save</Text>
+                      <Text style={{fontSize: 20, textDecorationLine: "underline", color: "#00ABFF"}}>Save</Text>
                     </View>
                   
                   </TouchableOpacity>
 
                   <TouchableOpacity onPress={() => {props.dismiss()}}>
                     <View>
-                      <Text>Dismiss</Text>
+                      <Text style={{fontSize: 20, textDecorationLine: "underline", color: "#00ABFF"}}>Dismiss</Text>
                     </View>
                   </TouchableOpacity>
 
