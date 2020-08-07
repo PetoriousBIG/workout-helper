@@ -3,7 +3,7 @@ import { AppConsumer } from '../context/app-context';
 import { Keyboard, StyleSheet, Text, View, TextInput, Alert, BackHandler } from 'react-native';
 import { FAB } from 'react-native-paper';
 import { HeaderBackButton } from '@react-navigation/stack';
-import WorkoutInput from '../components/workoutInput';
+import WorkoutInput from './workout-input';
 
 //a tab for letting the user make customization and contains app info
 export default function WOScreen({route, navigation}) {   

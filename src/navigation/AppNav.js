@@ -3,11 +3,11 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
-import Home from '../screens/home-tab.js';
-import Rest from '../screens/rest-tab.js';
+import Home from '../screens/workout-list.js';
+import Rest from '../screens/rest.js';
 import Options from '../screens/options.js';
-import WOScreen from '../screens/workout-screen.js'
-import DoWorkoutScreen from '../screens/doWorkout.js';
+import WOScreen from '../screens/add-edit-workout.js'
+import DoWorkoutScreen from '../screens/do-workout.js';
 import Records from '../screens/records.js';
 
 const Tab = createMaterialTopTabNavigator();

@@ -1,23 +1,22 @@
-import React, {Component} from 'react';
-import { StyleSheet, Text, View, FlatList, Modal, TouchableOpacity, TextInput, Alert, BackHandler} from 'react-native';
+import React, { Component } from 'react';
+import {  Text, View, FlatList, TouchableOpacity, Alert, BackHandler} from 'react-native';
 import { AppConsumer } from '../context/app-context';
-
 import { FAB } from 'react-native-paper';
 import { HeaderBackButton } from '@react-navigation/stack';
 
-import InputModal from '../components/modal'
-import { TapGestureHandler } from 'react-native-gesture-handler';
+import InputModal from './modal'
 import globalStyles from '../global-styles/styles';
+import { cleanNum, createRecord, updateExerciseResult } from './code-behind/do-workout'
 
-//screen for user to store results of in progress workout instance
+//screen for user to record results of in progress workout instance
 export default class DoWorkoutScreen extends Component {
   constructor(props){
     super()
-    console.log(props.route.params)
-    var results = props.route.params.workout
-    this.state = {modalIsEditing: -1, isModalVisible: false, modalReps: '', modalWeight: '', workoutResults: results}
+    this.state = {modalIsEditing: -1, isModalVisible: false, modalReps: '', modalWeight: '', workoutResults: props.route.params.workout}
   }
 
+  //sets up the listener for Android hardware back button and
+  //overwrites the header back button
   componentDidMount() {
 
     this.backHandler = BackHandler.addEventListener(
@@ -31,10 +30,13 @@ export default class DoWorkoutScreen extends Component {
       })
   }
 
+  //cleanup function that undoes the hardware back button listener
   componentWillUnmount() {
     this.backHandler.remove();
   }
 
+  //handles moving to the previous screen on the stack by
+  //providing the user with the option of saving their progress before navigation back
   backAction = () => {
     Alert.alert("Are you sure?", "Would you like to save your workout progress before quitting?", [
       { text: "Cancel",
@@ -51,6 +53,8 @@ export default class DoWorkoutScreen extends Component {
     return true;
   };
 
+  //the following 4 functions are supplied to the modal
+  //to update this screen's state
   updateModalWeight = (val) => {
     this.setState({modalWeight: val})
   }
@@ -59,28 +63,8 @@ export default class DoWorkoutScreen extends Component {
     this.setState({modalReps: val})
   }
 
-  cleanNum = (e) => {
-    
-    var inputAsNum = Math.floor(Number(e.nativeEvent.text))
-    if (inputAsNum < 1){
-      const one = 1
-      return one.toString()
-    }
-    else if (isNaN(inputAsNum)){
-      const one = 1
-      return one.toString()
-    }
-    return inputAsNum.toString()
-  }
-
   setExerciseResults = (reps, weight) => {
-    const setNum = this.state.modalIsEditing
-    var woResultsCopy = this.state.workoutResults
-    var set = woResultsCopy[setNum]
-    set.completedReps = reps
-    set.weight = weight
-    woResultsCopy[setNum] = set
-    this.setState({workoutResults: woResultsCopy})
+    this.setState({workoutResults: updateExerciseResult(this.state.workoutResults, this.state.modalIsEditing, reps, weight)})
   }
 
   dismissModal = () => {
@@ -89,35 +73,14 @@ export default class DoWorkoutScreen extends Component {
     this.setState({isModalVisible: false})
   }
 
-  createBody = () => {
-    var body = ""
-    const results = this.state.workoutResults
-    results.forEach(element => {
-      body += element.exercise + " " + element.completedReps + "/" + element.goalReps + " @ " + element.weight + "\n"
-    })
-    return body
-  }
-
-  createHeader = () => {
-    const name = this.props.route.params.name
-    const now = new Date()
-    const nowString = now.getUTCMonth() + "/" + now.getUTCDate() + "/" + now.getUTCFullYear()
-    return name + " " + nowString
-  }
-
-  saveChanges = () => {
-    this.setExerciseResults(this.state.modalIsEditing, this.state.modalReps, this.state.modalWeight)
-    this.dismissModal()
-  }
-
   render() {
     return (
       <AppConsumer>
       {(context) => (
-        <View style={styles.container}>
+        <View style={globalStyles.topContainer}>
 
             <InputModal isVisible={this.state.isModalVisible} viewReps = {this.state.modalReps} viewWeight = {this.state.modalWeight}
-                        dismiss = {() => this.dismissModal()} cleanNum = {(e) => this.cleanNum(e)} updateMW = {(val) => this.updateModalWeight(val)}
+                        dismiss = {() => this.dismissModal()} cleanNum = {(e) => cleanNum(e)} updateMW = {(val) => this.updateModalWeight(val)}
                         updateReps = {(val) => this.updateModalReps(val)} saveResults = {(r, w) => this.setExerciseResults(r, w)}/>
           
           
@@ -125,20 +88,24 @@ export default class DoWorkoutScreen extends Component {
                       keyExtractor={(item, index) => item.key}
                       renderItem={({ item, index }) => (
                           <TouchableOpacity onPress={() => {
+
+                            //triggers the modal to appear and sets the flag
+                            //for the item being edited
                             this.setState({modalIsEditing: index})
                             this.setState({isModalVisible: true})}}>
                               
-                              <View style = {[styles.flatList, 
+                              <View style = {[{padding: 15, borderWidth: .5}, 
                                 item.completedReps >= item.goalReps ? {backgroundColor: '#5EFCAD'} : {backgroundColor: '#FF7394'}]}>
-                                  <Text style = {styles.text}>{item.exercise}: {item.completedReps}/{item.goalReps} @ {item.weight}</Text>
+                                  <Text style = {globalStyles.flatlistHeader}>{item.exercise}: {item.completedReps}/{item.goalReps} @ {item.weight}</Text>
                               </View>
                           </TouchableOpacity>)}/>
               
             <FAB style={globalStyles.fab} large icon="plus"
                   onPress={() => {
-                    const header = this.createHeader()
-                    const body = this.createBody()
-                    context.addRecord(header, body)
+                    
+                    //adds the new record to app storage and pop's this screen from the stack
+                    const record = createRecord(this.props.route.params.name, this.state.workoutResults)
+                    context.addRecord(record)
                     this.props.navigation.goBack()
                   }}/>
         </View>)}
@@ -146,21 +113,3 @@ export default class DoWorkoutScreen extends Component {
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container : {
-    flex: 1,
-    justifyContent: "flex-start",
-
-  },
-  flatList: {
-      padding: 15,
-      borderWidth: .5
-  },
-  text: {
-      fontSize: 25
-  },
-  row: {
-   flexDirection : 'row',
-  },
-})

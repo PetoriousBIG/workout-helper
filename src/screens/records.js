@@ -10,7 +10,8 @@ export default function Records() {
     {(context) => (
     <View style={globalStyles.topContainer}>
       <FlatList data={context.records}
-                renderItem={({ item }) => (
+                keyExtractor ={((item, index) => item.key)}
+                renderItem={({ item, index }) => (
                   <TouchableOpacity onPress={() => {
                       const displayText = item.body
                       alert(displayText)}}>
@@ -18,7 +19,7 @@ export default function Records() {
                       <View style={globalStyles.row}>
                         <Text style={globalStyles.flatlistHeader}>{item.header}</Text>
 
-                        <TouchableOpacity onPress={() => context.deleteRecord(item.key)}>
+                        <TouchableOpacity onPress={() => {context.deleteRecord(index)}}>
                           <View>
                             <Image style={globalStyles.imageButton} source={require('../assets/delete.png')}/>
                           </View>

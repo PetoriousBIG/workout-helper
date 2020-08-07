@@ -71,9 +71,9 @@ export class AppProvider extends React.Component {
         }
     }
 
-    addRecord = (header, body) => {
+    addRecord = (record) => {
         var records = this.state.records
-        records.push(new Record(header, body, (records.length).toString()))
+        records.push(record)
         this.setState({records: records})
         saveRecords(this.state.records)
     }
